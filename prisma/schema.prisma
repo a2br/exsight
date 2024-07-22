@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String
+
+  section Section
+  year    Year    @default(second)
+
+  gpa  Float
+  fail Boolean @default(false)
+
+  agreementsId String[]    @db.ObjectId
+  agreements   Agreement[] @relation(fields: [agreementsId], references: [id])
+}
+
+model University {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  code       String
+  url        String
+  town       String
+  country    String
+  region     String
+  regionCode String
+
+  special Boolean @default(false)
+
+  agreements Agreement[]
+}
+
+model Agreement {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  uni      University @relation(fields: [universityId], references: [id])
+  sections Section[]
+  places   Int
+
+  users User[] @relation(fields: [usersId], references: [id])
+
+  universityId String   @db.ObjectId
+  usersId      String[] @db.ObjectId
+}
+
+enum Year {
+  second
+  third
+}
+
+enum Section {
+  AR
+  GC
+  SIE
+
+  IN
+  SC
+
+  CGC
+  MA
+  PH
+
+  EL
+  GM
+  MT
+  MX
+
+  SV
+}
