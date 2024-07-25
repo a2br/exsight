@@ -1,0 +1,356 @@
+[
+	{
+		"region": {
+			"code": "AM_NORD_MOB",
+			"name": { "fr": "Amérique du Nord", "en": "North America" },
+			"countries": [
+				{
+					"country": {
+						"code": "CA",
+						"towns": [
+							{ "fr": "Montréal", "en": "Montréal" },
+							{ "fr": "Québec", "en": "Québec" },
+							{ "fr": "Toronto", "en": "Toronto" },
+							{ "fr": "Vancouver", "en": "Vancouver" },
+							{ "fr": "Waterloo", "en": "Waterloo" }
+						],
+						"name": { "fr": "Canada", "en": "Canada" }
+					}
+				},
+				{
+					"country": {
+						"code": "USA",
+						"towns": [
+							{ "fr": "Baltimore", "en": "Baltimore" },
+							{ "fr": "IL Urbana-Chamaign", "en": "IL Urbana-Chamaign" },
+							{ "fr": "La Jolla", "en": "La Jolla" },
+							{ "fr": "Pittsburgh", "en": "Pittsburgh" },
+							{ "fr": "Seattle WA", "en": "Seattle WA" }
+						],
+						"name": { "fr": "Etats-Unis", "en": "United States of America" }
+					}
+				},
+				{
+					"country": {
+						"code": "MX",
+						"towns": [{ "fr": "Monterrey", "en": "Monterrey" }],
+						"name": { "fr": "Mexique", "en": "Mexico" }
+					}
+				}
+			]
+		}
+	},
+	{
+		"region": {
+			"code": "AM_SUD_MOB",
+			"name": { "fr": "Amérique du Sud", "en": "South America" },
+			"countries": [
+				{
+					"country": {
+						"code": "BR",
+						"towns": [{ "fr": "São Paulo", "en": "São Paulo" }],
+						"name": { "fr": "Brésil", "en": "Brazil" }
+					}
+				},
+				{
+					"country": {
+						"code": "CL",
+						"towns": [
+							{ "fr": "Santiago", "en": "Santiago" },
+							{ "fr": "Valparaiso", "en": "Valparaiso" }
+						],
+						"name": { "fr": "Chili", "en": "Chile" }
+					}
+				}
+			]
+		}
+	},
+	{
+		"region": {
+			"code": "asi",
+			"name": { "fr": "Asie", "en": "Asia" },
+			"countries": [
+				{
+					"country": {
+						"code": "CN",
+						"towns": [
+							{ "fr": "Beijing", "en": "Beijing" },
+							{ "fr": "Hong Kong", "en": "Hong Kong" },
+							{ "fr": "Shanghai", "en": "Shanghai" }
+						],
+						"name": { "fr": "Chine", "en": "China" }
+					}
+				},
+				{
+					"country": {
+						"code": "KR",
+						"towns": [
+							{ "fr": "Daejeon", "en": "Daejeon" },
+							{ "fr": "Pohang", "en": "Pohang" },
+							{ "fr": "Seoul", "en": "Seoul" }
+						],
+						"name": { "fr": "Corée du Sud", "en": "Republic of Korea" }
+					}
+				},
+				{
+					"country": {
+						"code": "IN",
+						"towns": [
+							{ "fr": "Kanpur", "en": "Kanpur" },
+							{ "fr": "Mumbai", "en": "Mumbai" }
+						],
+						"name": { "fr": "Inde", "en": "India" }
+					}
+				},
+				{
+					"country": {
+						"code": "JP",
+						"towns": [{ "fr": "Tokyo", "en": "Tokyo" }],
+						"name": { "fr": "Japon", "en": "Japan" }
+					}
+				},
+				{
+					"country": {
+						"code": "SGP",
+						"towns": [{ "fr": "Singapore", "en": "Singapore" }],
+						"name": { "fr": "Singapour", "en": "Singapore" }
+					}
+				}
+			]
+		}
+	},
+	{
+		"region": {
+			"code": "eur",
+			"name": { "fr": "Europe", "en": "Europe" },
+			"countries": [
+				{
+					"country": {
+						"code": "D",
+						"towns": [
+							{ "fr": "Aachen", "en": "Aachen" },
+							{ "fr": "Berlin", "en": "Berlin" },
+							{ "fr": "Bonn", "en": "Bonn" },
+							{ "fr": "Darmstadt", "en": "Darmstadt" },
+							{ "fr": "Dresden", "en": "Dresden" },
+							{ "fr": "Goettingen", "en": "Goettingen" },
+							{ "fr": "Karlsruhe", "en": "Karlsruhe" },
+							{ "fr": "Munich", "en": "Munich" },
+							{ "fr": "Stuttgart", "en": "Stuttgart" },
+							{ "fr": "Weimar", "en": "Weimar" }
+						],
+						"name": { "fr": "Allemagne", "en": "Germany" }
+					}
+				},
+				{
+					"country": {
+						"code": "A",
+						"towns": [{ "fr": "Vienne", "en": "Vienne" }],
+						"name": { "fr": "Autriche", "en": "Austria" }
+					}
+				},
+				{
+					"country": {
+						"code": "B",
+						"towns": [
+							{ "fr": "Bruxelles", "en": "Bruxelles" },
+							{ "fr": "Leuven", "en": "Leuven" },
+							{ "fr": "Louvain-la-Neuve", "en": "Louvain-la-Neuve" }
+						],
+						"name": { "fr": "Belgique", "en": "Belgium" }
+					}
+				},
+				{
+					"country": {
+						"code": "HR",
+						"towns": [{ "fr": "Zagreb", "en": "Zagreb" }],
+						"name": { "fr": "Croatie", "en": "Croatia" }
+					}
+				},
+				{
+					"country": {
+						"code": "DK",
+						"towns": [
+							{ "fr": "Aarhus C", "en": "Aarhus C" },
+							{ "fr": "Lyngby", "en": "Lyngby" }
+						],
+						"name": { "fr": "Danemark", "en": "Denmark" }
+					}
+				},
+				{
+					"country": {
+						"code": "E",
+						"towns": [
+							{ "fr": "Barcelone", "en": "Barcelone" },
+							{ "fr": "Grenade", "en": "Grenade" },
+							{ "fr": "Madrid", "en": "Madrid" },
+							{
+								"fr": "Sant Cugat Valles (Barcelone)",
+								"en": "Sant Cugat Valles (Barcelone)"
+							},
+							{ "fr": "Terrassa", "en": "Terrassa" },
+							{ "fr": "Valence", "en": "Valence" }
+						],
+						"name": { "fr": "Espagne", "en": "Spain" }
+					}
+				},
+				{
+					"country": {
+						"code": "FI",
+						"towns": [{ "fr": "Aalto", "en": "Aalto" }],
+						"name": { "fr": "Finlande", "en": "Finland" }
+					}
+				},
+				{
+					"country": {
+						"code": "F",
+						"towns": [
+							{ "fr": " Grenoble", "en": " Grenoble" },
+							{ "fr": "Besançon Cedex", "en": "Besançon Cedex" },
+							{ "fr": "Champs-sur-Marne", "en": "Champs-sur-Marne" },
+							{ "fr": "Grenoble", "en": "Grenoble" },
+							{ "fr": "Lyon", "en": "Lyon" },
+							{ "fr": "Marne La Vallée", "en": "Marne La Vallée" },
+							{ "fr": "Palaiseau", "en": "Palaiseau" },
+							{ "fr": "Paris", "en": "Paris" },
+							{ "fr": "Saint Martin d'Heres", "en": "Saint Martin d'Heres" },
+							{ "fr": "Strasbourg", "en": "Strasbourg" },
+							{ "fr": "Toulouse", "en": "Toulouse" },
+							{ "fr": "Valence", "en": "Valence" },
+							{ "fr": "Vandoeuvre-Lès-Nancy", "en": "Vandoeuvre-Lès-Nancy" },
+							{ "fr": "Vaulx-en-Velin CEDEX", "en": "Vaulx-en-Velin CEDEX" },
+							{ "fr": "Versailles", "en": "Versailles" },
+							{ "fr": "Villeurbanne", "en": "Villeurbanne" }
+						],
+						"name": { "fr": "France", "en": "France" }
+					}
+				},
+				{
+					"country": {
+						"code": "IRL",
+						"towns": [{ "fr": "Dublin", "en": "Dublin" }],
+						"name": { "fr": "Irlande", "en": "Ireland" }
+					}
+				},
+				{
+					"country": {
+						"code": "IT",
+						"towns": [
+							{ "fr": "Milano", "en": "Milano" },
+							{ "fr": "Padova", "en": "Padova" },
+							{ "fr": "Pisa", "en": "Pisa" },
+							{ "fr": "Roma", "en": "Roma" },
+							{ "fr": "Torino", "en": "Torino" },
+							{ "fr": "Venise", "en": "Venise" }
+						],
+						"name": { "fr": "Italie", "en": "Italy" }
+					}
+				},
+				{
+					"country": {
+						"code": "NO",
+						"towns": [
+							{ "fr": "Oslo", "en": "Oslo" },
+							{ "fr": "Trondheim", "en": "Trondheim" }
+						],
+						"name": { "fr": "Norvège", "en": "Norway" }
+					}
+				},
+				{
+					"country": {
+						"code": "NL",
+						"towns": [
+							{ "fr": "Delft", "en": "Delft" },
+							{ "fr": "Eindhoven", "en": "Eindhoven" },
+							{ "fr": "Wageningen", "en": "Wageningen" }
+						],
+						"name": { "fr": "Pays-Bas", "en": "Netherlands" }
+					}
+				},
+				{
+					"country": {
+						"code": "PL",
+						"towns": [{ "fr": "Varsovie", "en": "Varsovie" }],
+						"name": { "fr": "Pologne", "en": "Poland" }
+					}
+				},
+				{
+					"country": {
+						"code": "PT",
+						"towns": [
+							{ "fr": "Lisbonne", "en": "Lisbonne" },
+							{ "fr": "Porto", "en": "Porto" }
+						],
+						"name": { "fr": "Portugal", "en": "Portugal" }
+					}
+				},
+				{
+					"country": {
+						"code": "GB",
+						"towns": [
+							{ "fr": "Edinburgh", "en": "Edinburgh" },
+							{ "fr": "London", "en": "London" },
+							{ "fr": "Nottingham", "en": "Nottingham" }
+						],
+						"name": { "fr": "Royaume-Uni", "en": "United Kingdom" }
+					}
+				},
+				{
+					"country": {
+						"code": "CZ",
+						"towns": [{ "fr": "Prague", "en": "Prague" }],
+						"name": { "fr": "République tchèque", "en": "Czech republic" }
+					}
+				},
+				{
+					"country": {
+						"code": "CH",
+						"towns": [
+							{ "fr": "Mendrisio", "en": "Mendrisio" },
+							{ "fr": "Zürich", "en": "Zürich" }
+						],
+						"name": { "fr": "Suisse", "en": "Switzerland" }
+					}
+				},
+				{
+					"country": {
+						"code": "S",
+						"towns": [
+							{ "fr": "Göteborg", "en": "Göteborg" },
+							{ "fr": "Linköping", "en": "Linköping" },
+							{ "fr": "Lund", "en": "Lund" },
+							{ "fr": "Stockholm", "en": "Stockholm" },
+							{ "fr": "Uppsala", "en": "Uppsala" }
+						],
+						"name": { "fr": "Suède", "en": "Sweden" }
+					}
+				},
+				{
+					"country": {
+						"code": "TR",
+						"towns": [
+							{ "fr": "Ankara", "en": "Ankara" },
+							{ "fr": "Istanbul", "en": "Istanbul" }
+						],
+						"name": { "fr": "Turquie", "en": "Turkey" }
+					}
+				}
+			]
+		}
+	},
+	{
+		"region": {
+			"code": "oce",
+			"name": { "fr": "Océanie", "en": "Oceania" },
+			"countries": [
+				{
+					"country": {
+						"code": "AUS",
+						"towns": [{ "fr": "Sydney", "en": "Sydney" }],
+						"name": { "fr": "Australie", "en": "Australia" }
+					}
+				}
+			]
+		}
+	}
+]

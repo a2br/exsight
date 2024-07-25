@@ -7,7 +7,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 model User {
@@ -27,14 +28,15 @@ model User {
 }
 
 model University {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  code       String
-  url        String
-  town       String
-  country    String
-  region     String
-  regionCode String
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  code        String
+  url         String
+  town        String
+  country     String
+  countryCode String
+  region      String
+  regionCode  String
 
   special Boolean @default(false)
 
