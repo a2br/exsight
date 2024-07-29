@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getAuthedUser, syncEmulatedRankings } from "@/lib/database";
+import { deleteUser, getAuthedUser, refreshPredictions } from "@/lib/database";
 import { auth } from "@/auth";
 import { sections } from "@/lib/epfl";
 import { Section, Year } from "@prisma/client";
@@ -62,6 +62,9 @@ export async function POST(request: NextRequest) {
 			name: them.user!.name!,
 			email: them.user!.email!,
 			image: them.user!.image!,
+
+			firstName: (them.user! as any).firstName!,
+			lastName: (them.user! as any).lastName!,
 
 			section: section as Section,
 			year: year == 3 ? Year.third : Year.second,
@@ -147,8 +150,7 @@ export async function PATCH(request: NextRequest) {
 			},
 		});
 
-		console.time("sync");
-		syncEmulatedRankings().then(() => console.timeEnd("sync"));
+		refreshPredictions();
 	}
 
 	return NextResponse.json({ success: true });
@@ -160,5 +162,8 @@ export async function DELETE(request: NextRequest) {
 	if (!user)
 		return NextResponse.json({ error: "Not registered" }, { status: 401 });
 
-	await prisma.user.delete({ where: { id: user.id } });
+	await deleteUser(user.id);
+	refreshPredictions();
+
+	return NextResponse.json({ success: true });
 }

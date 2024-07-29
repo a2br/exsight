@@ -15,76 +15,184 @@ export async function getAuthedUser(): Promise<User | null> {
 	return user;
 }
 
-export async function syncEmulatedRankings() {
+export async function deleteUser(id: string) {
+	let user = await prisma.user.delete({
+		where: {
+			id,
+		},
+		include: {
+			agreements: true,
+		},
+	});
+
+	// Remove user ID from usersId
+	for (let agreement of user.agreements) {
+		await prisma.agreement.update({
+			where: { id: agreement.id },
+			data: {
+				usersId: {
+					set: agreement.usersId.filter((uid) => uid !== user.id),
+				},
+			},
+		});
+	}
+
+	// Refresh predictions, later
+}
+
+export async function refreshPredictions() {
+	console.time("refreshPredictions");
 	// Get all the users, sorted by GPA
 	// Store all agreements in an array, with the number of the latest rank
 	// For each user, increment the rank and store it
 
+	console.time("fetching users & agreements");
+
 	let users = await prisma.user.findMany({
-		orderBy: {
-			fail: "asc", // 0, then 1: non failing first, failing last
-			gpa: "desc", // best, then worst
+		where: {
+			year: "second",
 		},
+		orderBy: [
+			{
+				fail: "asc", // 0, then 1: non failing first, failing last
+			},
+			{
+				gpa: "desc", // best, then worst
+			},
+		],
 		select: {
 			id: true,
+			gpa: true,
+			fail: true,
 			agreements: {
 				select: {
 					id: true,
 					places: true,
-					uni: {
-						select: {
-							overseas: true,
-						},
-					},
 				},
 			},
 		},
 	});
 
-	let rankings = new Map<string, { places: number; cursor: number }>();
+	// Populate with all agreements: important to clear out bad data
+	let populatedAgreements = await prisma.agreement.findMany({
+		select: {
+			id: true,
+			places: true,
+		},
+		where: {
+			// In short: agreement isn't blank
+			OR: [
+				{
+					// At least one user
+					users: {
+						some: {},
+					},
+				},
+				{
+					// No user, but not virgin
+					failIdx: {
+						not: -1,
+					},
+				},
+				{
+					// Non empty grades array
+					grades: {
+						isEmpty: false,
+					},
+				},
+			],
+		},
+	});
 
-	let pairings: { [key: string]: number[] } = {};
+	console.timeEnd("fetching users & agreements");
+	console.time("looping users");
+
+	let ledger = new Map<
+		string,
+		{
+			places: number;
+			grades: number[];
+			// First index where the user has failed, in bravoGrades
+			failIndex: number;
+		}
+	>(
+		populatedAgreements.map((a) => [
+			a.id,
+			{ places: a.places, grades: [], failIndex: -1 },
+		])
+	);
+
+	let userUpdates = new Map<string, number[]>();
 
 	for (let user of users) {
-		var fulfilled = false;
-		let leeway: number[] = [];
+		let alphaLeeway: number[] = [];
+
 		// Suppose the user has the right for each agreement
 		for (let option of user.agreements) {
-			// Initialize agreement if not previously seen
-			if (!rankings.has(option.id)) {
-				rankings.set(option.id, {
+			// If agreement isn't in ledger, add it
+			if (!ledger.has(option.id)) {
+				ledger.set(option.id, {
 					places: option.places,
-					cursor: 0,
+					grades: [],
+					failIndex: -1,
 				});
 			}
 
 			// Get the ranking
-			let { places, cursor } = rankings.get(option.id)!;
+			let { places, grades, failIndex } = ledger.get(option.id)!;
+			let cursor = grades.length;
 
 			// At this point: current user has the priority
 			let placesLeft = places - cursor;
 			let placesLeftAfterMe = placesLeft - 1;
-			leeway.push(placesLeftAfterMe);
+
+			alphaLeeway.push(placesLeftAfterMe); // 0 if last, -1 if 1 place away, etc...
+
+			let newFailIndex = failIndex === -1 && user.fail ? cursor : failIndex;
 
 			// Take the next place
-			if (!fulfilled) rankings.set(option.id, { places, cursor: cursor + 1 });
+			ledger.set(option.id, {
+				places,
+				grades: [...grades, user.gpa],
+				failIndex: newFailIndex,
+			});
 
-			if (placesLeft > 0) {
-				fulfilled = true;
-			}
+			// Found happiness
+			if (placesLeft > 0) break;
 		}
 
-		pairings[user.id] = leeway;
+		userUpdates.set(user.id, alphaLeeway);
 	}
 
-	return Promise.all(
-		Object.keys(pairings).map((id) =>
+	console.timeEnd("looping users");
+
+	console.time("updating agreements & users");
+
+	// Update agreements Bravo cache
+	// Update users Alpha cache
+	await Promise.all([
+		...[...ledger].map(([id, value]) =>
+			prisma.agreement.update({
+				where: { id },
+				data: {
+					grades: value.grades,
+					failIdx: value.failIndex,
+				},
+			})
+		),
+
+		...[...userUpdates].map(([id, value]) =>
 			prisma.user.update({
 				where: { id },
 				data: {
-					leeway: pairings[id],
+					alphaLeeway: value,
 				},
 			})
-		)
-	);
+		),
+	]).then((r) => {
+		console.timeEnd("updating agreements & users");
+
+		console.timeEnd("refreshPredictions");
+		return r;
+	});
 }
