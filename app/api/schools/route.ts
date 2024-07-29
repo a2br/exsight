@@ -5,11 +5,6 @@ import { University, User } from "@prisma/client";
 import { Section, sections } from "@/lib/epfl";
 
 // Get all schools/agreements
-// Search them
-// Filter them
-// Grades applying to them
-
-// Get all schools/agreements
 export async function GET(req: NextRequest) {
 	// get query params
 	let url = new URL(req.url);
@@ -84,6 +79,9 @@ export async function GET(req: NextRequest) {
 			a.id = a._id.$oid;
 			delete a._id;
 			delete a.universityId;
+
+			//TODO Enhance agreement with feedback (index, etc.)
+			// What are the other grades (not counting you) => what position would you be in?
 		}
 	}
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getAuthedUser } from "@/lib/database";
+import { getAuthedUser, syncEmulatedRankings } from "@/lib/database";
 import { auth } from "@/auth";
 import { sections } from "@/lib/epfl";
 import { Section, Year } from "@prisma/client";
@@ -139,11 +139,19 @@ export async function PATCH(request: NextRequest) {
 			where: { id: account.id },
 			data: {
 				agreements: {
-					connect: docs.map((a) => ({ id: a!.id })),
+					connect: docs
+						// Overseas first
+						.sort((a, b) => Number(b!.uni.overseas) - Number(a!.uni.overseas))
+						.map((a) => ({ id: a!.id })),
 				},
 			},
 		});
+
+		console.time("sync");
+		syncEmulatedRankings().then(() => console.timeEnd("sync"));
 	}
+
+	return NextResponse.json({ success: true });
 }
 
 // Delete account

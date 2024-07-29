@@ -26,6 +26,7 @@ model User {
 
   agreementsId String[]    @db.ObjectId
   agreements   Agreement[] @relation(fields: [agreementsId], references: [id])
+  leeway       Int[]
 }
 
 model University {
