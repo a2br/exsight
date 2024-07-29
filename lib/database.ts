@@ -46,7 +46,7 @@ export async function refreshPredictions() {
 	// Store all agreements in an array, with the number of the latest rank
 	// For each user, increment the rank and store it
 
-	console.time("fetching users & agreements");
+	console.time("- fetching users & agreements");
 
 	let users = await prisma.user.findMany({
 		where: {
@@ -104,8 +104,8 @@ export async function refreshPredictions() {
 		},
 	});
 
-	console.timeEnd("fetching users & agreements");
-	console.time("looping users");
+	console.timeEnd("- fetching users & agreements");
+	console.time("- looping users");
 
 	let ledger = new Map<
 		string,
@@ -164,9 +164,9 @@ export async function refreshPredictions() {
 		userUpdates.set(user.id, alphaLeeway);
 	}
 
-	console.timeEnd("looping users");
+	console.timeEnd("- looping users");
 
-	console.time("updating agreements & users");
+	console.time("- updating agreements & users");
 
 	// Update agreements Bravo cache
 	// Update users Alpha cache
@@ -190,7 +190,7 @@ export async function refreshPredictions() {
 			})
 		),
 	]).then((r) => {
-		console.timeEnd("updating agreements & users");
+		console.timeEnd("- updating agreements & users");
 
 		console.timeEnd("refreshPredictions");
 		return r;
