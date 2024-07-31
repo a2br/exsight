@@ -9,22 +9,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 		signIn: "/login",
 	},
 	callbacks: {
-		async authorized({ auth, request: { nextUrl } }) {
-			// Is not authed, redirect to login
-			const isAuthed = !!auth;
-			const registeredUser =
-				isAuthed &&
-				(await prisma.user.findUnique({
-					where: { email: auth?.user?.email! },
-				}));
-			// const isOnApp = nextUrl.pathname.startsWith("/dash");
-
-			if (!isAuthed) return Response.redirect(new URL("/login", nextUrl));
-			if (!registeredUser)
-				return Response.redirect(new URL("/config", nextUrl));
-
-			return true;
-		},
 		async signIn({ account, profile, user }) {
 			if (account?.provider !== "google") {
 				return "/auth/error?why=provider";
