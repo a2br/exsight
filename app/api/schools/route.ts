@@ -26,64 +26,39 @@ export async function GET(req: NextRequest) {
 	if (region && !["EUR", "WOR"].includes(region))
 		return NextResponse.json({ error: "Invalid region" }, { status: 400 });
 
-	let answer = await prisma.$runCommandRaw({
-		aggregate: "University",
-		pipeline: [
-			{
-				$match: {
-					$text: search ? { $search: search } : undefined,
-					regionCode: region
-						? region === "EUR"
-							? "EUR"
-							: {
-									$not: {
-										$in: ["EUR"],
-									},
-							  }
-						: undefined,
+	//TODO Find corresponding universities
+	let unis = await prisma.university.findMany({
+		where: {
+			AND: [
+				// Section query
+				{
+					agreements: {
+						some: {
+							sections: {
+								hasSome: sections,
+							},
+						},
+					},
 				},
-			},
-			{
-				$lookup: {
-					from: "Agreement",
-					localField: "_id",
-					foreignField: "universityId",
-					as: "agreements",
-					pipeline:
-						sections.length > 0
-							? [
-									{
-										$match: { sections: { $in: sections } },
-									},
-							  ]
-							: undefined,
-				},
-			},
-			{
-				$match: { "agreements.0": { $exists: true } },
-			},
-		],
-		cursor: {}, // Optional cursor configuration
+				// Region query
+				region
+					? region === "EUR"
+						? { region }
+						: { region: { not: "EUR" } }
+					: {},
+				search && search.length > 3
+					? {
+							OR: [
+								{ name: { contains: search } },
+								{ town: { contains: search } },
+								{ country: { contains: search } },
+								{ url: { contains: search } },
+							],
+					  }
+					: {},
+			],
+		},
 	});
 
-	if (!answer.ok)
-		return NextResponse.json({ error: "Internal error" }, { status: 500 });
-
-	let files: any[] = (answer.cursor! as any).firstBatch!;
-
-	for (let f of files) {
-		f.id = f._id.$oid;
-		delete f._id;
-
-		for (let a of f.agreements) {
-			a.id = a._id.$oid;
-			delete a._id;
-			delete a.universityId;
-
-			//TODO Enhance agreement with feedback (index, etc.)
-			// What are the other grades (not counting you) => what position would you be in?
-		}
-	}
-
-	return NextResponse.json(files);
+	return NextResponse.json({ universities: unis });
 }

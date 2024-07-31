@@ -21,7 +21,11 @@ export async function deleteUser(id: string) {
 			id,
 		},
 		include: {
-			agreements: true,
+			agreements: {
+				include: {
+					users: true,
+				},
+			},
 		},
 	});
 
@@ -30,8 +34,10 @@ export async function deleteUser(id: string) {
 		await prisma.agreement.update({
 			where: { id: agreement.id },
 			data: {
-				usersId: {
-					set: agreement.usersId.filter((uid) => uid !== user.id),
+				users: {
+					disconnect: {
+						id: user.id,
+					},
 				},
 			},
 		});

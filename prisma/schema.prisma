@@ -2,8 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 generator client {
@@ -12,7 +13,7 @@ generator client {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   email     String   @unique
   name      String
@@ -27,13 +28,14 @@ model User {
   gpa  Float
   fail Boolean @default(false)
 
-  agreementsId String[]    @db.ObjectId
-  agreements   Agreement[] @relation(fields: [agreementsId], references: [id])
-  alphaLeeway  Int[]
+  agreements  Agreement[]
+  alphaLeeway Int[]
+
+  @@map("users")
 }
 
 model University {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(uuid())
   name        String
   code        String
   url         String
@@ -46,21 +48,24 @@ model University {
   special Boolean @default(false)
 
   agreements Agreement[]
+
+  @@map("universities")
 }
 
 model Agreement {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  uni      University @relation(fields: [universityId], references: [id])
+  id String @id @default(uuid())
+
+  uni   University @relation(fields: [uniId], references: [id])
+  uniId String
+
   sections Section[]
   places   Int
 
-  users User[] @relation(fields: [usersId], references: [id])
-
-  universityId String   @db.ObjectId
-  usersId      String[] @db.ObjectId
-
+  users   User[]
   grades  Float[]
   failIdx Int     @default(-1)
+
+  @@map("agreements")
 }
 
 enum Year {
