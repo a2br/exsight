@@ -4,6 +4,7 @@ import { deleteUser, getAuthedUser, refreshPredictions } from "@/lib/database";
 import { auth } from "@/auth";
 import { sections } from "@/lib/epfl";
 import { Section, Year } from "@prisma/client";
+import { z } from "zod";
 
 // Get currently logged in account
 export async function GET() {
@@ -26,35 +27,28 @@ export async function POST(request: NextRequest) {
 	let account = await getAuthedUser();
 	if (account)
 		return NextResponse.json({ error: "Already registered" }, { status: 400 });
-	let body = await request.json();
+	var body = await request.json();
 	// Expecting: section (string), year (2 or 3), gpa (number), fail (boolean)
 
-	var section: unknown = body.section;
-	let year: unknown = body.year ?? 2;
-	let gpa: unknown = body.gpa;
-	let fail: unknown = body.fail;
+	let parser = z
+		.object({
+			section: z.string().toUpperCase(),
+			year: z.number().optional().default(2),
+			gpa: z.number().gt(1).lte(6),
+			fail: z.boolean(),
+		})
+		.safeParse(body);
 
-	if (!section || !year || !gpa || fail === undefined)
-		return NextResponse.json({ error: "Missing fields" }, { status: 400 });
-
-	if (
-		typeof section !== "string" ||
-		typeof year !== "number" ||
-		typeof gpa !== "number" ||
-		typeof fail !== "boolean"
-	)
+	if (!parser.success)
 		return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
 
-	section = section.toUpperCase();
+	let { section, year, gpa, fail } = parser.data;
 
 	if (!sections.includes(section as any))
 		return NextResponse.json({ error: "Invalid section" }, { status: 400 });
 
 	if (![2, 3].includes(year))
 		return NextResponse.json({ error: "Invalid year" }, { status: 400 });
-
-	if (gpa < 1 || gpa > 6)
-		return NextResponse.json({ error: "Invalid GPA" }, { status: 400 });
 
 	// Create user
 	let user = await prisma.user.create({
