@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({ error: "Invalid region" }, { status: 400 });
 
 	let answer = await prisma.$runCommandRaw({
-		aggregate: "University", // Use the 'aggregate' command on the 'University' collection
+		aggregate: "University",
 		pipeline: [
 			{
 				$match: {
