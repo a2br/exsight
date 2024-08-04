@@ -3,32 +3,34 @@ import Google from "next-auth/providers/google";
 
 import prisma from "./lib/prisma";
 import { NextResponse } from "next/server";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 
 export const authConfig = {
 	providers: [Google],
+	// adapter: PrismaAdapter(prisma),
 	pages: {
 		signIn: "/login",
 	},
 	callbacks: {
-		async authorized({ auth, request: { nextUrl } }) {
-			const isLoggedIn = !!auth?.user;
-			const isRegistered =
-				isLoggedIn &&
-				(await prisma.user.findUnique({
-					where: { email: auth?.user?.email! },
-				}));
+		// async authorized({ auth, request: { nextUrl } }) {
+		// 	const isLoggedIn = !!auth?.user;
+		// 	const isRegistered =
+		// 		isLoggedIn &&
+		// 		(await prisma.user.findUnique({
+		// 			where: { email: auth?.user?.email! },
+		// 		}));
 
-			if (nextUrl.pathname.startsWith("/register")) {
-				if (isRegistered) return NextResponse.redirect("/");
-				if (!isLoggedIn) return NextResponse.redirect("/login");
-				return true;
-			}
+		// 	if (nextUrl.pathname.startsWith("/register")) {
+		// 		if (isRegistered) return NextResponse.redirect("/");
+		// 		if (!isLoggedIn) return NextResponse.redirect("/login");
+		// 		return true;
+		// 	}
 
-			if (isRegistered) true;
-			if (isLoggedIn) return NextResponse.redirect("/register");
+		// 	if (isRegistered) true;
+		// 	if (isLoggedIn) return NextResponse.redirect("/register");
 
-			return NextResponse.redirect("/login");
-		},
+		// 	return NextResponse.redirect("/login");
+		// },
 		async signIn({ account, profile, user }) {
 			if (account?.provider !== "google") {
 				return "/auth/error?why=provider";

@@ -1,31 +1,21 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import { auth, signIn, signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
 	const sesh = await auth();
+	if (!sesh) redirect("/login");
 	return (
 		<main>
 			<h1>ExSight</h1>
-			{!sesh ? (
-				<form
-					action={async () => {
-						"use server";
-						await signIn("google");
-					}}
-				>
-					<button type="submit">Sign in with Google</button>
-				</form>
-			) : (
-				<form
-					action={async () => {
-						"use server";
-						await signOut();
-					}}
-				>
-					<button type="submit">Sign out</button>
-				</form>
-			)}
+			<form
+				action={async () => {
+					"use server";
+					await signOut();
+				}}
+			>
+				<button type="submit">Sign out</button>
+			</form>
+
 			<code>
 				<pre>{JSON.stringify(sesh, null, 2)}</pre>
 			</code>
