@@ -10,7 +10,24 @@ const GoogleButton: React.FC = async () => {
 				await signIn("google");
 			}}
 		>
-			<button type="submit">Sign in with Google</button>
+			<button
+				type="submit"
+				style={{
+					marginTop: "1em",
+					fontFamily: "inherit",
+					padding: "1em",
+					textAlign: "left",
+					border: "none",
+					width: "100%",
+					minHeight: "3em",
+					backgroundColor: "#FF9900",
+					color: "white",
+					fontWeight: 700,
+					cursor: "pointer",
+				}}
+			>
+				continue with my EPFL Google account {"->"}
+			</button>
 		</form>
 	);
 };

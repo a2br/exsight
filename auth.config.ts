@@ -12,33 +12,13 @@ export const authConfig = {
 		signIn: "/login",
 	},
 	callbacks: {
-		// async authorized({ auth, request: { nextUrl } }) {
-		// 	const isLoggedIn = !!auth?.user;
-		// 	const isRegistered =
-		// 		isLoggedIn &&
-		// 		(await prisma.user.findUnique({
-		// 			where: { email: auth?.user?.email! },
-		// 		}));
-
-		// 	if (nextUrl.pathname.startsWith("/register")) {
-		// 		if (isRegistered) return NextResponse.redirect("/");
-		// 		if (!isLoggedIn) return NextResponse.redirect("/login");
-		// 		return true;
-		// 	}
-
-		// 	if (isRegistered) true;
-		// 	if (isLoggedIn) return NextResponse.redirect("/register");
-
-		// 	return NextResponse.redirect("/login");
-		// },
 		async signIn({ account, profile, user }) {
 			if (account?.provider !== "google") {
-				return "/auth/error?why=provider";
+				return "/login?error=InvalidProvider";
 			}
 
-			// if (!profile?.email_verified) return false;
 			if (profile?.hd !== "epfl.ch") {
-				return "/auth/error?why=email";
+				return "/login?error=InvalidEmail";
 			}
 
 			return true;
