@@ -13,6 +13,9 @@ export async function GET(req: NextRequest) {
 	let section = params.get("s")?.toUpperCase();
 	let region = params.get("r")?.toUpperCase();
 	let search = params.get("q");
+	// Only keep letters and spaces in search
+	if (search)
+		search = "'" + search.toLowerCase().replace(/[^a-zA-Z\s]/g, "") + "'";
 
 	// Parse sections, which are comma-separated
 	var sections = section ? (section.split(",") as Section[]) : [];
@@ -27,38 +30,36 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({ error: "Invalid region" }, { status: 400 });
 
 	//TODO Find corresponding universities
-	let unis = await prisma.university.findMany({
+	let agreements = await prisma.agreement.findMany({
 		where: {
 			AND: [
 				// Section query
 				{
-					agreements: {
-						some: {
-							sections: {
-								hasSome: sections,
-							},
-						},
+					sections: {
+						hasSome: sections,
 					},
 				},
 				// Region query
 				region
-					? region === "EUR"
-						? { region }
-						: { region: { not: "EUR" } }
+					? { uni: { regionCode: region === "EUR" ? "EUR" : { not: "EUR" } } }
 					: {},
 				search && search.length > 3
 					? {
 							OR: [
-								{ name: { contains: search } },
-								{ town: { contains: search } },
-								{ country: { contains: search } },
-								{ url: { contains: search } },
+								{ uni: { name: { search } } },
+								{ uni: { town: { search } } },
+								{ uni: { country: { search } } },
+								{ uni: { url: { search } } },
 							],
 					  }
 					: {},
 			],
 		},
+		include: {
+			uni: true,
+		},
+		orderBy: search && search.length > 3 ? {} : { uni: { name: "asc" } },
 	});
 
-	return NextResponse.json({ universities: unis });
+	return NextResponse.json({ agreements });
 }

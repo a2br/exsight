@@ -88,19 +88,18 @@ export async function PATCH(request: NextRequest) {
 	// Parse body
 	let body = await request.json();
 
-	let agreements = body.agreements;
+	let parser = z
+		.object({
+			agreements: z.array(z.string()).optional(),
+		})
+		.safeParse(body);
+
+	if (!parser.success)
+		return NextResponse.json({ error: "Invalid fields" }, { status: 400 });
+
+	let { agreements } = parser.data;
 
 	if (agreements !== undefined) {
-		// Check that it's an array of strings
-		if (
-			!Array.isArray(agreements) ||
-			agreements.some((a) => typeof a !== "string")
-		)
-			return NextResponse.json(
-				{ error: "Invalid agreements" },
-				{ status: 400 }
-			);
-
 		let docs = await Promise.all(
 			agreements.map((id) =>
 				prisma.agreement.findUnique({
@@ -120,7 +119,7 @@ export async function PATCH(request: NextRequest) {
 		// Check that user indeed has access to all agreements
 		if (docs.some((a) => !a!.sections.includes(account.section)))
 			return NextResponse.json(
-				{ error: "Invalid agreements" },
+				{ error: "Some agreements are out of reach" },
 				{ status: 400 }
 			);
 

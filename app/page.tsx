@@ -1,30 +1,32 @@
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
+import { Footnote } from "@/components/ui/Footnote";
+import { Header } from "@/components/ui/Header";
+import { MyPicks } from "@/components/ui/MyPicks";
+import { Walkthrough } from "@/components/ui/Walkthrough";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
+
+import "./page.module.css";
 
 export default async function Home() {
 	const sesh = await auth();
 	if (!sesh) redirect("/login");
 	const user =
 		sesh?.user?.email &&
-		(await prisma.user.findUnique({ where: { email: sesh.user.email } }));
+		(await prisma.user.findUnique({
+			where: { email: sesh.user.email },
+			include: { agreements: { include: { uni: true } } },
+		}));
 	if (!user) redirect("/register");
 
 	return (
-		<main>
-			<h1>ExSight</h1>
-			<form
-				action={async () => {
-					"use server";
-					await signOut();
-				}}
-			>
-				<button type="submit">Sign out</button>
-			</form>
-
-			<code>
-				<pre>{JSON.stringify(sesh, null, 2)}</pre>
-			</code>
-		</main>
+		<>
+			<Header />
+			<main>
+				<MyPicks user={user} />
+				<Walkthrough />
+				<Footnote />
+			</main>
+		</>
 	);
 }

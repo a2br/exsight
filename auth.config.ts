@@ -7,6 +7,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 export const authConfig = {
 	providers: [Google],
+	trustHost: true,
 	// adapter: PrismaAdapter(prisma),
 	pages: {
 		signIn: "/login",
