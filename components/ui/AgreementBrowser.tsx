@@ -2,6 +2,7 @@
 
 import { Section } from "@/lib/epfl";
 import { Agreement, University, User } from "@prisma/client";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -52,23 +53,48 @@ export const AgreementBrowser: React.FC<{
 	};
 
 	return (
-		<div>
+		<div style={{ margin: "2em" }}>
 			<h2>Search</h2>
 			<input
 				type="text"
 				value={query}
 				onChange={(e) => setQuery(e.target.value)}
-				placeholder="Search..."
+				placeholder="Search whole words..."
+				style={{
+					margin: "1em 0",
+					fontFamily: "inherit",
+					width: "100%",
+					border: "1px solid #e6e6e6",
+					padding: "1em",
+				}}
 			/>
 			<ul>
-				{results.map((ag) => {
-					return (
-						<li key={ag.id}>
-							{ag.uni.name} - {ag.uni.town}, {ag.uni.country}
-						</li>
-					);
-				})}
+				{results.map((ag) => (
+					<AgreementBox key={ag.id} agreement={ag} i={num ?? undefined} />
+				))}
 			</ul>
 		</div>
+	);
+};
+
+const AgreementBox: React.FC<{ agreement: SuperAg; i?: number }> = ({
+	agreement: ag,
+	i,
+}) => {
+	let link = `/a/${ag.id}`; //TODO Add index only
+	if (i !== undefined) link += `?to=${i}`;
+	return (
+		<Link href={link} style={{ textDecoration: "none", color: "inherit" }}>
+			<div
+				style={{
+					height: "8em",
+					backgroundColor: "#E6E6E6",
+					margin: "1em 0",
+					padding: "1em",
+				}}
+			>
+				{ag.uni.name}
+			</div>
+		</Link>
 	);
 };
