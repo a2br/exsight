@@ -1,12 +1,13 @@
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import React, { ReactNode } from "react";
 
 type Props = {
+	title?: string;
 	children: ReactNode;
 };
 
 // Takes one additional argument, "title"
-const FormLayout: React.FC<Props> = async ({ children }) => {
+const FormLayout: React.FC<Props> = async ({ title = "ExSight", children }) => {
 	let sesh = await auth();
 	return (
 		// Container
@@ -41,9 +42,28 @@ const FormLayout: React.FC<Props> = async ({ children }) => {
 							lineHeight: "1.8em",
 						}}
 					>
-						ExSight
+						{title}
 					</h1>
-					{sesh ? <p>logout {"->"}</p> : null}
+					{sesh ? (
+						<form
+							action={async () => {
+								"use server";
+								await signOut();
+							}}
+						>
+							<button
+								type="submit"
+								style={{
+									fontFamily: "inherit",
+									backgroundColor: "inherit",
+									border: "none",
+									cursor: "pointer",
+								}}
+							>
+								logout {"->"}
+							</button>
+						</form>
+					) : null}
 				</div>
 
 				<div

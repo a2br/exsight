@@ -1,9 +1,11 @@
 import { auth } from "@/auth";
 import FormLayout from "@/components/formLayout";
 import FormText from "@/components/formText";
-import GoogleButton from "@/components/googleButton";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
+
+import "./style.css";
+import { RegisterForm } from "@/components/registerForm";
 
 export default async function RegisterPage() {
 	let session = await auth();
@@ -19,10 +21,15 @@ export default async function RegisterPage() {
 
 	return (
 		<main>
-			<FormLayout>
+			<FormLayout title="Register to ExSight">
 				<FormText>
-					Let's register, {(session.user as any).firstName || "welcome"}!
+					Welcome,{" "}
+					<strong>{(session.user as any).firstName.split(" ")[0]}</strong>!
+					Please tell us about your section and first-year grade average. You
+					can find it on ISA. If you’re able, you may add more than two
+					decimals.
 				</FormText>
+				<RegisterForm />
 			</FormLayout>
 		</main>
 	);

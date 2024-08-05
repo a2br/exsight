@@ -3,3 +3,11 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+
+p {
+	font-weight: 350;
+}
+
+strong {
+	font-weight: 600;
+}
