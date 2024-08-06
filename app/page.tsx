@@ -20,6 +20,8 @@ export default async function Home() {
 		}));
 	if (!user) redirect("/register");
 
+	//TODO Allow for charlie indices: add candidates
+
 	return (
 		<>
 			<Header />
