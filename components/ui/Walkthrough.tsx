@@ -77,7 +77,16 @@ const WalkthroughItem: React.FC<{
 	user: User;
 	agreement: Agreement & { uni: University };
 }> = ({ user, agreement: a }) => {
-	let rank = user.agreementOrder.findIndex((id) => id === a.id) + 1;
+	let idx = user.agreementOrder.findIndex((id) => id === a.id);
+	let rank = idx + 1;
+
+	let alphaLeeway = user.alphaLeeway[idx];
+	let minIdx = user.fail ? (a.failIdx === -1 ? a.grades.length : a.failIdx) : 0;
+	let bravoIdx = a.grades.findIndex((g, i) => i >= minIdx && g < user.gpa);
+	if (bravoIdx === -1) bravoIdx = a.grades.length;
+	let bravoLeeway = a.places - bravoIdx - 1;
+
+	let spareChoice = user.alphaLeeway.length <= idx;
 
 	return (
 		<li
@@ -101,7 +110,6 @@ const WalkthroughItem: React.FC<{
 					color: "rgba(255, 255, 255, 0.5)",
 					fontSize: "1em",
 					padding: "1em",
-					// zIndex: -1,
 				}}
 			>
 				#{rank}
@@ -123,13 +131,38 @@ const WalkthroughItem: React.FC<{
 						textAlign: "right",
 						fontWeight: 700,
 						fontSize: "1em",
-						color: "white",
+						color: spareChoice ? "rgba(255, 255, 255, 0.5)" : "white",
 					}}
 				>
 					{a.uni.name}
 				</span>
 			</div>
-			<div style={{ flex: 1 }}></div>
+			<div
+				style={{
+					flex: 1,
+					padding: "1em",
+					display: "flex",
+					flexDirection: "column",
+				}}
+			>
+				{spareChoice ? (
+					<span
+						style={{
+							color: spareChoice ? "grey" : "white",
+						}}
+					>
+						{bravoLeeway >= 0
+							? `you'd get in with ${bravoLeeway} spare places`
+							: `you'd be ${-bravoLeeway} places from getting in`}
+					</span>
+				) : (
+					<span>
+						{alphaLeeway >= 0
+							? `getting in with ${alphaLeeway} spare places`
+							: `${-alphaLeeway} places from getting in`}
+					</span>
+				)}
+			</div>
 		</li>
 	);
 };
