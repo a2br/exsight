@@ -93,10 +93,10 @@ export const AgreementViewer: React.FC<{
 			</div>
 			<button
 				style={{
-					border: "none",
-					backgroundColor: added ? "red" : BRAND_COLOR,
+					backgroundColor: "white",
+					border: `1px solid ${added ? "red" : BRAND_COLOR}`,
+					color: added ? "red" : BRAND_COLOR,
 					padding: "1em",
-					color: "white",
 					fontFamily: "inherit",
 					width: "100%",
 					margin: "2em 0",
