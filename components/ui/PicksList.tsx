@@ -76,7 +76,7 @@ const Pick: React.FC<{
 				>
 					<span style={{}}>{name ?? "Add a school"}</span>
 				</div>
-				<span>{agreement?.uni.town ?? `${6 - i} left `}</span> {"->"}
+				<span>{agreement?.uni.town ?? `${6 - i} left `}</span> &#8209;{">"}
 			</li>
 		</Link>
 	);

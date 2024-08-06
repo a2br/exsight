@@ -72,7 +72,7 @@ export const RegisterForm: React.FC = () => {
 					onChange={(e) => setGpa(e.target.valueAsNumber)}
 					required
 				/>
-				<button type="submit">{"->"}</button>
+				<button type="submit">&#8209;{">"}</button>
 			</div>
 		</form>
 	);

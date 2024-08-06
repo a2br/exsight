@@ -1,9 +1,10 @@
 import { Section } from "@/lib/epfl";
 import React from "react";
 
-export const DisplaySections: React.FC<{ sections: Section[] }> = ({
-	sections,
-}) => {
+export const DisplaySections: React.FC<{
+	sections: Section[];
+	number?: number;
+}> = ({ sections, number }) => {
 	const enac = sections.filter((s) => ["AR", "GC", "SIE"].includes(s));
 	const ic = sections.filter((s) => ["IN", "SC"].includes(s));
 	const sb = sections.filter((s) => ["CGC", "MA", "PH"].includes(s));
@@ -13,12 +14,13 @@ export const DisplaySections: React.FC<{ sections: Section[] }> = ({
 		<div
 			style={{
 				display: "flex",
+				flexWrap: "wrap",
 				fontSize: "0.9em",
 				gap: "3px",
 				fontWeight: 600,
-				margin: "1em 0",
 			}}
 		>
+			{number !== undefined && <span>{number}</span>}
 			{enac.length > 0 && <ColoredGroup color="#ea5e00" sections={enac} />}
 			{ic.length > 0 && <ColoredGroup color="#1bb5b5" sections={ic} />}
 			{sb.length > 0 && <ColoredGroup color="#007ba5" sections={sb} />}

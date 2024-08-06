@@ -60,7 +60,7 @@ const FormLayout: React.FC<Props> = async ({ title = "ExSight", children }) => {
 									cursor: "pointer",
 								}}
 							>
-								logout {"->"}
+								logout &#8209;{">"}
 							</button>
 						</form>
 					) : null}

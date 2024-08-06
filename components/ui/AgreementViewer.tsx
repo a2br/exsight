@@ -96,7 +96,9 @@ export const AgreementViewer: React.FC<{
 				}}
 			></div>
 			<h1>{agreement.uni.name}</h1>
-			<DisplaySections sections={agreement.sections} />
+			<div style={{ margin: "1em 0" }}>
+				<DisplaySections sections={agreement.sections} />
+			</div>
 			<button
 				style={{
 					border: "none",

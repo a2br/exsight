@@ -5,6 +5,8 @@ import { Agreement, University, User } from "@prisma/client";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
+import { DisplaySections } from "../DisplaySections";
+import { DiVim } from "react-icons/di";
 
 type SuperAg = Agreement & { uni: University };
 
@@ -87,13 +89,28 @@ const AgreementBox: React.FC<{ agreement: SuperAg; i?: number }> = ({
 		<Link href={link} style={{ textDecoration: "none", color: "inherit" }}>
 			<div
 				style={{
-					height: "8em",
-					backgroundColor: "#E6E6E6",
 					margin: "1em 0",
 					padding: "1em",
+					border: "1px solid #E6E6E6",
+					minHeight: "8em",
+					display: "flex",
+					flexDirection: "column",
 				}}
 			>
-				{ag.uni.name} {"->"}
+				<h3
+					style={{
+						marginBottom: "0.5em",
+						fontWeight: 500,
+					}}
+				>
+					{ag.uni.name}&nbsp;&#8209;{">"}
+				</h3>
+				<div style={{ marginTop: "auto" }}>
+					<div style={{ fontWeight: 300 }}>
+						{ag.uni.town}, {ag.uni.country}
+					</div>
+					<DisplaySections sections={ag.sections} number={ag.places} />
+				</div>
 			</div>
 		</Link>
 	);

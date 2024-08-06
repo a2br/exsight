@@ -26,7 +26,7 @@ const GoogleButton: React.FC = async () => {
 					cursor: "pointer",
 				}}
 			>
-				continue with my EPFL Google account {"->"}
+				continue with my EPFL Google account &#8209;{">"}
 			</button>
 		</form>
 	);
