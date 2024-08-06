@@ -84,7 +84,7 @@ export const AgreementViewer: React.FC<{
 					backgroundColor: "inherit",
 				}}
 			>
-				{"<-"} back
+				{"<"}&#8209; back
 			</button>
 			<div
 				style={{

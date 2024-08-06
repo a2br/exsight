@@ -36,6 +36,7 @@ const ColoredGroup: React.FC<{ color: string; sections: Section[] }> = ({
 }) => {
 	return sections.map((s) => (
 		<span
+			key={s}
 			style={{
 				color: color,
 			}}

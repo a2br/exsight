@@ -22,7 +22,6 @@ export const PicksList: React.FC<Props> = ({
 	agreements,
 	onUpdate,
 }) => {
-	//TODO Manage changes here
 	let buffedAgr =
 		agreements.length < 6 ? [...agreements, undefined] : agreements;
 
@@ -63,20 +62,28 @@ const Pick: React.FC<{
 					color: "black",
 					marginBottom: "0.2em",
 					fontSize: "0.8em",
+					display: "flex",
+					flexDirection: "row",
 				}}
 			>
-				<div
-					style={{
-						textOverflow: "ellipsis",
-						whiteSpace: "nowrap",
-						overflow: "hidden",
-						width: "calc(100% - 10em)",
-						fontWeight: 600,
-					}}
-				>
-					<span style={{}}>{name ?? "Add a school"}</span>
+				{/* Info box*/}
+				<div style={{ flex: 1, minWidth: 0 }}>
+					<div
+						style={{
+							textOverflow: "ellipsis",
+							whiteSpace: "nowrap",
+							overflow: "hidden",
+							fontWeight: 600,
+						}}
+					>
+						<span style={{}}>{name ?? "Add a school"}</span>
+					</div>
+					<span>{agreement?.uni.town ?? `${6 - i} left `}</span> &#8209;{">"}
 				</div>
-				<span>{agreement?.uni.town ?? `${6 - i} left `}</span> &#8209;{">"}
+				{/* Toolbox */}
+				<div style={{ width: "5em", flexShrink: 0 }}>
+					{/* Fixed size tools box */}
+				</div>
 			</li>
 		</Link>
 	);

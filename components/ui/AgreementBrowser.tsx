@@ -12,8 +12,7 @@ type SuperAg = Agreement & { uni: University };
 
 export const AgreementBrowser: React.FC<{
 	user: User & { agreements: SuperAg[] };
-	agreements: SuperAg[];
-}> = ({ user, agreements }) => {
+}> = ({ user }) => {
 	const params = useSearchParams();
 	const to = params.get("to")?.toUpperCase();
 

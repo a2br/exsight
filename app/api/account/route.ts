@@ -130,6 +130,15 @@ export async function PATCH(request: NextRequest) {
 				{ status: 400 }
 			);
 
+		// Check that each agreement group is under 6 long
+		if (
+			docs.filter((a) => a!.uni.overseas).length > 6 ||
+			docs.filter((a) => !a!.uni.overseas).length > 6
+		)
+			return NextResponse.json(
+				{ error: "Too many agreements" },
+				{ status: 400 }
+			);
 		// Overseas first
 		docs = docs.sort(
 			(a, b) => Number(b!.uni.overseas) - Number(a!.uni.overseas)

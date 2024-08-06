@@ -24,7 +24,7 @@ export default async function AddAgreement({ params: { id } }: Params) {
 		<>
 			<Header />
 			<main>
-				<AgreementBrowser user={user} agreements={[]} />
+				<AgreementBrowser user={JSON.parse(JSON.stringify(user))} />
 			</main>
 		</>
 	);

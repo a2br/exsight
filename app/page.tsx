@@ -7,6 +7,7 @@ import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
 import "./page.module.css";
+import { MyAgreements } from "@/components/ui/MyAgreements";
 
 export default async function Home() {
 	const sesh = await auth();
@@ -23,8 +24,7 @@ export default async function Home() {
 		<>
 			<Header />
 			<main>
-				<MyPicks user={JSON.parse(JSON.stringify(user))} />
-				<Walkthrough />
+				<MyAgreements user={JSON.parse(JSON.stringify(user))} />
 				<Footnote />
 			</main>
 		</>
