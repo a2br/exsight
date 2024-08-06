@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import FormLayout from "@/components/formLayout";
 import FormText from "@/components/formText";
 import GoogleButton from "@/components/googleButton";
-import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {

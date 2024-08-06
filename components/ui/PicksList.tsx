@@ -50,7 +50,7 @@ const Pick: React.FC<{
 }> = ({ i, type, agreement, onUpdate }) => {
 	let name =
 		agreement && ((short as any)[agreement.uni.name] ?? agreement.uni.name);
-	let link = agreement ? `/a/${agreement.id}` : `/add?to=${type}+${i}`;
+	let link = agreement ? `/a/${agreement.id}` : `/add?to=${type}`;
 	return (
 		<Link href={link} style={{ textDecoration: "none" }}>
 			<li

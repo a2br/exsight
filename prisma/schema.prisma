@@ -28,8 +28,9 @@ model User {
   gpa  Float
   fail Boolean @default(false)
 
-  agreements  Agreement[]
-  alphaLeeway Int[]
+  agreements     Agreement[]
+  agreementOrder String[] //TODO
+  alphaLeeway    Int[]
 
   @@map("users")
 }

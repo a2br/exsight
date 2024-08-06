@@ -4,7 +4,6 @@ import { sections } from "@/lib/epfl";
 import React, { useState } from "react";
 
 import "@/app/register/style.css";
-import prisma from "@/lib/prisma";
 
 export const RegisterForm: React.FC = () => {
 	let [gpa, setGpa] = useState(4.5);

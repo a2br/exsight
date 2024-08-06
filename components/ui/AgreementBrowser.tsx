@@ -93,7 +93,7 @@ const AgreementBox: React.FC<{ agreement: SuperAg; i?: number }> = ({
 					padding: "1em",
 				}}
 			>
-				{ag.uni.name}
+				{ag.uni.name} {"->"}
 			</div>
 		</Link>
 	);

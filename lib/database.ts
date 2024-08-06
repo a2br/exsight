@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { User } from "@prisma/client";
+import { sortDocs } from "./util";
 
 export async function getAuthedUser(): Promise<User | null> {
 	let them = await auth();
@@ -76,6 +77,7 @@ export async function refreshPredictions() {
 					places: true,
 				},
 			},
+			agreementOrder: true,
 		},
 	});
 
@@ -133,8 +135,10 @@ export async function refreshPredictions() {
 	for (let user of users) {
 		let alphaLeeway: number[] = [];
 
+		let sortedAgreements = sortDocs(user.agreements, user.agreementOrder);
+
 		// Suppose the user has the right for each agreement
-		for (let option of user.agreements) {
+		for (let option of sortedAgreements) {
 			// If agreement isn't in ledger, add it
 			if (!ledger.has(option.id)) {
 				ledger.set(option.id, {

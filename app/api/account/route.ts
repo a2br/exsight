@@ -130,16 +130,26 @@ export async function PATCH(request: NextRequest) {
 				{ status: 400 }
 			);
 
+		// Overseas first
+		docs = docs.sort(
+			(a, b) => Number(b!.uni.overseas) - Number(a!.uni.overseas)
+		);
+
+		console.log(
+			"server order: ",
+			docs.map((a) => a?.uni.town)
+		);
+
 		// Everything seems good, update user
 		await prisma.user.update({
 			where: { id: account.id },
 			data: {
 				agreements: {
-					connect: docs
+					set: docs
 						// Overseas first
-						.sort((a, b) => Number(b!.uni.overseas) - Number(a!.uni.overseas))
 						.map((a) => ({ id: a!.id })),
 				},
+				agreementOrder: docs.map((a) => a!.id),
 			},
 		});
 

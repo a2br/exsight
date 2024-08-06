@@ -2,16 +2,16 @@
 
 import { PicksList } from "./PicksList";
 import React, { useState } from "react";
-import { User } from "next-auth";
-import { Agreement, University } from "@prisma/client";
+import { User, Agreement, University } from "@prisma/client";
+import { sortDocs } from "@/lib/util";
 
 export const MyPicks: React.FC<{
 	user: User & { agreements: (Agreement & { uni: University })[] };
 }> = ({ user }) => {
-	let [agr, setAgr] = useState(user.agreements);
+	let [agr, setAgr] = useState(sortDocs(user.agreements, user.agreementOrder));
 
 	const onUpdate = async (action: "remove" | "up" | "down", id: string) => {
-		let newAgrs = [...user.agreements];
+		let newAgrs = [...agr];
 		let i = newAgrs.findIndex((a) => a.id === id);
 
 		switch (action) {

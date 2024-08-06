@@ -23,7 +23,7 @@ export default async function Home() {
 		<>
 			<Header />
 			<main>
-				<MyPicks user={user} />
+				<MyPicks user={JSON.parse(JSON.stringify(user))} />
 				<Walkthrough />
 				<Footnote />
 			</main>
