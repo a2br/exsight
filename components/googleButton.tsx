@@ -1,4 +1,5 @@
 import { signIn } from "@/auth";
+import { BRAND_COLOR } from "@/lib/util";
 import React from "react";
 
 // Takes one additional argument, "title"
@@ -20,7 +21,7 @@ const GoogleButton: React.FC = async () => {
 					border: "none",
 					width: "100%",
 					minHeight: "3em",
-					backgroundColor: "#FF9900",
+					backgroundColor: BRAND_COLOR,
 					color: "white",
 					fontWeight: 700,
 					cursor: "pointer",

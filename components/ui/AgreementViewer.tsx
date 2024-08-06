@@ -1,6 +1,6 @@
 "use client";
 
-import { sortDocs } from "@/lib/util";
+import { BRAND_COLOR, sortDocs } from "@/lib/util";
 import { Agreement, University, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -92,7 +92,7 @@ export const AgreementViewer: React.FC<{
 					height: "0.2em",
 					marginTop: "2em",
 					marginBottom: "1em",
-					backgroundColor: "#FF9900",
+					backgroundColor: BRAND_COLOR,
 				}}
 			></div>
 			<h1>{agreement.uni.name}</h1>
@@ -102,7 +102,7 @@ export const AgreementViewer: React.FC<{
 			<button
 				style={{
 					border: "none",
-					backgroundColor: added ? "red" : "#ff9900",
+					backgroundColor: added ? "red" : BRAND_COLOR,
 					padding: "1em",
 					color: "white",
 					fontFamily: "inherit",

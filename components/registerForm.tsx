@@ -4,6 +4,7 @@ import { sections } from "@/lib/epfl";
 import React, { useState } from "react";
 
 import "@/app/register/style.css";
+import { BRAND_COLOR } from "@/lib/util";
 
 export const RegisterForm: React.FC = () => {
 	let [gpa, setGpa] = useState(4.5);
@@ -72,7 +73,9 @@ export const RegisterForm: React.FC = () => {
 					onChange={(e) => setGpa(e.target.valueAsNumber)}
 					required
 				/>
-				<button type="submit">&#8209;{">"}</button>
+				<button style={{ backgroundColor: BRAND_COLOR }} type="submit">
+					&#8209;{">"}
+				</button>
 			</div>
 		</form>
 	);

@@ -1,3 +1,4 @@
+import { BRAND_COLOR } from "@/lib/util";
 import Link from "next/link";
 
 export const Header = () => {
@@ -5,7 +6,7 @@ export const Header = () => {
 		<header>
 			<div
 				style={{
-					backgroundColor: "#ff9900",
+					backgroundColor: BRAND_COLOR,
 					display: "flex",
 					width: "100%",
 					borderBottom: "4px solid white",

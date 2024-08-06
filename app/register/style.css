@@ -52,7 +52,7 @@ input {
 }
 
 .register-form button {
-	background-color: #ff9900;
+	/* background-color: #ff9900; */
 	font-size: 1.2rem;
 	border: none;
 	color: white;

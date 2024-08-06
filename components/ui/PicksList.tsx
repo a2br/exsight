@@ -2,10 +2,12 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FaAngleUp, FaAngleDown, FaXmark } from "react-icons/fa6";
 import { Agreement, University } from "@prisma/client";
 
 import short from "@/public/short.json";
+
+import { FaAngleUp, FaAngleDown, FaXmark } from "react-icons/fa6";
+import { BRAND_COLOR } from "@/lib/util";
 
 type SuperAgreement = Agreement & { uni: University };
 
@@ -34,7 +36,13 @@ export const PicksList: React.FC<Props> = ({
 			)}
 			{buffedAgr.map((agr, i) => {
 				return (
-					<Pick key={i} type={type} i={i} agreement={agr} onUpdate={onUpdate} />
+					<Pick
+						key={i}
+						type={type}
+						i={i}
+						agreements={agreements}
+						onUpdate={onUpdate}
+					/>
 				);
 			})}
 		</div>
@@ -44,30 +52,41 @@ export const PicksList: React.FC<Props> = ({
 const Pick: React.FC<{
 	i: number;
 	type: "wor" | "eur";
-	agreement: SuperAgreement | undefined;
+	agreements: SuperAgreement[];
 	onUpdate: (action: "remove" | "up" | "down", id: string) => void;
-}> = ({ i, type, agreement, onUpdate }) => {
+}> = ({ i, type, agreements, onUpdate }) => {
+	let agreement = agreements[i];
+
 	let name =
 		agreement && ((short as any)[agreement.uni.name] ?? agreement.uni.name);
 	let link = agreement ? `/a/${agreement.id}` : `/add?to=${type}`;
+
 	return (
-		<Link href={link} style={{ textDecoration: "none" }}>
-			<li
-				className={`agr ${!agreement && "empty"}`}
+		<li
+			className={`agr ${!agreement && "empty"}`}
+			style={{
+				listStyleType: "none",
+				padding: "0.5em",
+				height: "3.5em",
+				backgroundColor: agreement ? "white" : "#ffffff75",
+				marginBottom: "0.2em",
+				fontSize: "0.8em",
+				display: "flex",
+				flexDirection: "row",
+			}}
+		>
+			<Link
+				href={link}
 				style={{
-					listStyleType: "none",
-					padding: "0.5em",
-					height: "3.5em",
-					backgroundColor: agreement ? "white" : "#ffd18b",
+					textDecoration: "none",
 					color: "black",
-					marginBottom: "0.2em",
-					fontSize: "0.8em",
-					display: "flex",
-					flexDirection: "row",
+					flex: 1,
+					minWidth: 0,
+					width: "100%",
 				}}
 			>
 				{/* Info box*/}
-				<div style={{ flex: 1, minWidth: 0 }}>
+				<div>
 					<div
 						style={{
 							textOverflow: "ellipsis",
@@ -79,12 +98,39 @@ const Pick: React.FC<{
 						<span style={{}}>{name ?? "Add a school"}</span>
 					</div>
 					<span>{agreement?.uni.town ?? `${6 - i} left `}</span> &#8209;{">"}
-				</div>
-				{/* Toolbox */}
-				<div style={{ width: "5em", flexShrink: 0 }}>
+				</div>{" "}
+			</Link>
+			{/* Toolbox */}
+			{agreement && (
+				<div
+					style={{
+						flexShrink: 0,
+						marginLeft: "auto",
+						display: "flex",
+						flexDirection: "row",
+						alignContent: "center",
+					}}
+				>
 					{/* Fixed size tools box */}
+					{i !== 0 && (
+						<ActionIcon id={agreement.id} action="up" onClick={onUpdate} />
+					)}
+					{i !== agreements.length - 1 && (
+						<ActionIcon id={agreement.id} action="down" onClick={onUpdate} />
+					)}
+					<ActionIcon id={agreement.id} action="remove" onClick={onUpdate} />
 				</div>
-			</li>
-		</Link>
+			)}
+		</li>
 	);
+};
+
+const ActionIcon: React.FC<{
+	id: string;
+	action: "remove" | "up" | "down";
+	onClick: (action: "remove" | "up" | "down", id: string) => void;
+}> = ({ id, action, onClick }) => {
+	let Icon =
+		action === "remove" ? FaXmark : action === "up" ? FaAngleUp : FaAngleDown;
+	return <Icon color="black" onClick={() => onClick(action, id)} />;
 };

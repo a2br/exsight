@@ -3,7 +3,7 @@
 import { PicksList } from "./PicksList";
 import React, { useState } from "react";
 import { User, Agreement, University } from "@prisma/client";
-import { sortDocs } from "@/lib/util";
+import { BRAND_COLOR, sortDocs } from "@/lib/util";
 
 export const MyPicks: React.FC<{
 	user: User;
@@ -16,7 +16,7 @@ export const MyPicks: React.FC<{
 	return (
 		<div
 			style={{
-				backgroundColor: "#ff9900",
+				backgroundColor: BRAND_COLOR,
 				color: "white",
 				padding: "2em",
 			}}

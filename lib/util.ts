@@ -7,3 +7,5 @@ export function sortDocs<T extends { id: U }, U>(docs: T[], model: U[]): T[] {
 	}
 	return sorted;
 }
+
+export const BRAND_COLOR = "#00A79F";
