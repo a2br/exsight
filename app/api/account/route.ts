@@ -144,11 +144,6 @@ export async function PATCH(request: NextRequest) {
 			(a, b) => Number(b!.uni.overseas) - Number(a!.uni.overseas)
 		);
 
-		console.log(
-			"server order: ",
-			docs.map((a) => a?.uni.town)
-		);
-
 		// Everything seems good, update user
 		await prisma.user.update({
 			where: { id: account.id },

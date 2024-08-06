@@ -15,7 +15,6 @@ export const RegisterForm: React.FC = () => {
 		<form
 			onSubmit={async (e) => {
 				e.preventDefault();
-				console.log("Submitting", { gpa, section, fail });
 				// Send request
 				const res = await fetch("/api/account", {
 					method: "POST",

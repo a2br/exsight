@@ -35,17 +35,9 @@ export const AgreementViewer: React.FC<{
 				local.push(agreement);
 			}
 		}
-		console.log(
-			"client order 0: ",
-			world.map((a) => a.uni.town)
-		);
+
 		// Reassemble
 		const newAgr = [...world, ...local];
-
-		console.log(
-			"client order: ",
-			newAgr.map((a) => a.uni.town)
-		);
 
 		// Update
 		const res = await fetch("/api/account", {
