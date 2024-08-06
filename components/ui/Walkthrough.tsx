@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { User, Agreement, University } from "@prisma/client";
 import { FaArrowsRotate } from "react-icons/fa6";
 
+import { stringToColor } from "@/lib/util";
+
 export const Walkthrough: React.FC<{
 	user: User;
 	agreements: (Agreement & { uni: University })[];
@@ -58,6 +60,9 @@ export const Walkthrough: React.FC<{
 			<div
 				style={{
 					marginTop: "1em",
+					display: "flex",
+					flexDirection: "column",
+					gap: "0.4em",
 				}}
 			>
 				{agreements.map((a, i) => (
@@ -72,5 +77,59 @@ const WalkthroughItem: React.FC<{
 	user: User;
 	agreement: Agreement & { uni: University };
 }> = ({ user, agreement: a }) => {
-	return <li key={a.id}>{a.uni.name}</li>;
+	let rank = user.agreementOrder.findIndex((id) => id === a.id) + 1;
+
+	return (
+		<li
+			key={a.id}
+			style={{
+				listStyleType: "none",
+				height: "10em",
+				backgroundColor: "white",
+				marginBottom: "0.2em",
+				display: "flex",
+				flexDirection: "row",
+				border: "1px solid #E6E6E6",
+				position: "relative",
+			}}
+		>
+			<span
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					color: "rgba(255, 255, 255, 0.5)",
+					fontSize: "1em",
+					padding: "1em",
+					// zIndex: -1,
+				}}
+			>
+				#{rank}
+			</span>
+			<div
+				style={{
+					flexShrink: 0,
+					width: "10em",
+					display: "flex",
+					flexDirection: "column",
+					padding: "1em",
+					backgroundColor: stringToColor(a.uni.name),
+				}}
+			>
+				<span
+					style={{
+						marginTop: "auto",
+						marginLeft: "auto",
+						textAlign: "right",
+						fontWeight: 700,
+						fontSize: "1em",
+						color: "white",
+					}}
+				>
+					{a.uni.name}
+				</span>
+			</div>
+			<div style={{ flex: 1 }}></div>
+		</li>
+	);
 };
