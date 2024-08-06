@@ -10,7 +10,7 @@ export const Walkthrough: React.FC<{
 }> = ({ user: inheritedUser, agreements: agr }) => {
 	let [user, setUser] = useState(inheritedUser);
 	let [agreements, setAgreements] = useState(agr);
-	let [loading, setLoading] = useState(true);
+	let [loading, setLoading] = useState(false);
 
 	// Fetch agreements: we need user and relevant agreements
 	const fetchInsights = async () => {
@@ -60,10 +60,17 @@ export const Walkthrough: React.FC<{
 					marginTop: "1em",
 				}}
 			>
-				{agreements.map((a) => (
-					<li key={a.id}>{a.uni.name}</li>
+				{agreements.map((a, i) => (
+					<WalkthroughItem key={i} user={user} agreement={a} />
 				))}
 			</div>
 		</div>
 	);
+};
+
+const WalkthroughItem: React.FC<{
+	user: User;
+	agreement: Agreement & { uni: University };
+}> = ({ user, agreement: a }) => {
+	return <li key={a.id}>{a.uni.name}</li>;
 };
