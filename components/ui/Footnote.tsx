@@ -25,6 +25,7 @@ export const Footnote = async () => {
 				backgroundColor: "white",
 				color: "black",
 				padding: "2em",
+				paddingTop: "0",
 			}}
 		>
 			<div
