@@ -70,7 +70,7 @@ export const RegisterForm: React.FC = () => {
 					min="1"
 					max="6"
 					value={gpa}
-					onChange={(e) => setGpa(e.target.valueAsNumber)}
+					onChange={(e) => setGpa(parseFloat(e.target.value.replace(",", ".")))}
 					required
 				/>
 				<button style={{ backgroundColor: BRAND_COLOR }} type="submit">
