@@ -62,15 +62,20 @@ export const RegisterForm: React.FC = () => {
 				</select>
 				{/* Numeric input for grade */}
 				<input
-					type="number"
+					type="text"
 					name="gpa"
 					id="gpa"
+					pattern="[0-9]+([\.|,][0-9]{1,2})?"
 					inputMode="decimal"
-					step="any"
-					min="1"
-					max="6"
-					value={gpa}
-					onChange={(e) => setGpa(parseFloat(e.target.value.replace(",", ".")))}
+					// step="any"
+					// min="1"
+					// max="6"
+					value={gpa.toString()}
+					onChange={(e) => {
+						let value = parseFloat(e.target.value.replace(",", "."));
+						if (value < 1 || value > 6) return;
+						setGpa(value);
+					}}
 					required
 				/>
 				<button style={{ backgroundColor: BRAND_COLOR }} type="submit">
