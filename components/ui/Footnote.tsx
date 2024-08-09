@@ -1,6 +1,7 @@
 import { auth, signOut } from "@/auth";
 import { Section, sectionColor, sections } from "@/lib/epfl";
 import prisma from "@/lib/prisma";
+import { BRAND_NAME } from "@/lib/util";
 import Link from "next/link";
 
 export const Footnote = async () => {
@@ -44,7 +45,9 @@ export const Footnote = async () => {
 					fontWeight: 600,
 				}}
 			>
-				<span>{userCount} users registered on ExSight. </span>
+				<span>
+					{userCount} users registered on {BRAND_NAME}.{" "}
+				</span>
 				<span>Thank you for participating.</span>
 				<Link
 					href="/settings"

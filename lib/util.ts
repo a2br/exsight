@@ -8,6 +8,7 @@ export function sortDocs<T extends { id: U }, U>(docs: T[], model: U[]): T[] {
 	return sorted;
 }
 
+export const BRAND_NAME = "ExSight Beta";
 export const BRAND_COLOR = "#00A79F";
 
 export function stringToColor(inputString: string): string {

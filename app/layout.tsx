@@ -4,12 +4,12 @@ import "./globals.css";
 import { Session } from "inspector";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
-import { BRAND_COLOR } from "@/lib/util";
+import { BRAND_COLOR, BRAND_NAME } from "@/lib/util";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "ExSight",
+	title: BRAND_NAME,
 	description: "Peace of mind applying for exchanges.",
 };
 
@@ -18,7 +18,6 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	// Get the session object from next auth
 	return (
 		<html lang="en">
 			<head>

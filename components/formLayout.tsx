@@ -1,4 +1,5 @@
 import { auth, signOut } from "@/auth";
+import { BRAND_NAME } from "@/lib/util";
 import React, { ReactNode } from "react";
 
 type Props = {
@@ -7,7 +8,10 @@ type Props = {
 };
 
 // Takes one additional argument, "title"
-const FormLayout: React.FC<Props> = async ({ title = "ExSight", children }) => {
+const FormLayout: React.FC<Props> = async ({
+	title = BRAND_NAME,
+	children,
+}) => {
 	let sesh = await auth();
 	return (
 		// Container
@@ -27,8 +31,6 @@ const FormLayout: React.FC<Props> = async ({ title = "ExSight", children }) => {
 					marginTop: "10em",
 				}}
 			>
-				{/* Write ExSight, and put visible box right under */}
-				{/* Flex div that takes up all width with one element left, one right, and a blank space in between */}
 				<div
 					style={{
 						display: "flex",

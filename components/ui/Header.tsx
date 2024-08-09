@@ -1,4 +1,4 @@
-import { BRAND_COLOR } from "@/lib/util";
+import { BRAND_COLOR, BRAND_NAME } from "@/lib/util";
 import Link from "next/link";
 
 export const Header = () => {
@@ -23,7 +23,7 @@ export const Header = () => {
 						color: "white",
 					}}
 				>
-					<h1>ExSight</h1>
+					<h1>{BRAND_NAME}</h1>
 				</Link>
 			</div>
 		</header>

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 import "./style.css";
 import { RegisterForm } from "@/components/registerForm";
+import { BRAND_NAME } from "@/lib/util";
 
 export default async function RegisterPage() {
 	let session = await auth();
@@ -21,7 +22,7 @@ export default async function RegisterPage() {
 
 	return (
 		<main>
-			<FormLayout title="Register to ExSight">
+			<FormLayout title={"Register to " + BRAND_NAME}>
 				<FormText>
 					Welcome,{" "}
 					<strong>{(session.user as any).firstName.split(" ")[0]}</strong>!
