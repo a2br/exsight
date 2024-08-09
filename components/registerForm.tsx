@@ -65,6 +65,7 @@ export const RegisterForm: React.FC = () => {
 					type="number"
 					name="gpa"
 					id="gpa"
+					inputMode="decimal"
 					step="any"
 					min="1"
 					max="6"
