@@ -8,13 +8,11 @@ import { BRAND_COLOR } from "@/lib/util";
 
 export const RegisterForm: React.FC = () => {
 	let [gpa, setGpa] = useState(4.5);
+	let [gpaString, setGpaString] = useState(gpa.toString());
 	let [section, setSection] = useState("MT");
 	let [fail, setFail] = useState(false);
 
 	// Stupid hack for localization
-	let [trailingDot, setTrailingDot] = useState(false);
-	let displayedGpa = gpa.toString() + (trailingDot ? "." : "");
-	if (isNaN(gpa)) displayedGpa = "";
 
 	return (
 		<form
@@ -75,16 +73,17 @@ export const RegisterForm: React.FC = () => {
 					// step="any"
 					// min="1"
 					// max="6"
-					value={displayedGpa}
+					value={gpaString}
 					onChange={(e) => {
 						let value = parseFloat(e.target.value.replace(",", "."));
 						if (value < 1 || value > 6) return;
-						if (e.target.value.endsWith(".") || e.target.value.endsWith(",")) {
-							setTrailingDot(true);
-						} else {
-							setTrailingDot(false);
-						}
-						setGpa(value);
+						// could be an invalid number, value = isNaN
+						setGpaString(e.target.value);
+						setGpa(isNaN(value) ? 1 : value);
+					}}
+					onBlur={(e) => {
+						// Sync the input with the state
+						setGpaString(gpa.toString());
 					}}
 					required
 				/>
