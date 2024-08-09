@@ -105,10 +105,12 @@ const Pick: React.FC<{
 				<div
 					style={{
 						flexShrink: 0,
-						marginLeft: "auto",
+						marginLeft: "1.5em",
 						display: "flex",
 						flexDirection: "row",
 						alignContent: "center",
+						flexWrap: "wrap",
+						gap: "0.5em",
 					}}
 				>
 					{/* Fixed size tools box */}
@@ -132,5 +134,7 @@ const ActionIcon: React.FC<{
 }> = ({ id, action, onClick }) => {
 	let Icon =
 		action === "remove" ? FaXmark : action === "up" ? FaAngleUp : FaAngleDown;
-	return <Icon color="black" onClick={() => onClick(action, id)} />;
+	return (
+		<Icon color="black" onClick={() => onClick(action, id)} size="1.5em" />
+	);
 };
