@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { sections } from "@/lib/epfl";
 import { Section, Year } from "@prisma/client";
 import { z } from "zod";
+import { sortDocs } from "@/lib/util";
 
 // Get currently logged in account
 export async function GET() {
@@ -100,17 +101,16 @@ export async function PATCH(request: NextRequest) {
 	let { agreements } = parser.data;
 
 	if (agreements !== undefined) {
-		let docs = await Promise.all(
-			agreements.map((id) =>
-				prisma.agreement.findUnique({
-					where: { id },
-					include: { uni: true },
-				})
-			)
+		let docs = sortDocs(
+			await prisma.agreement.findMany({
+				where: { id: { in: agreements } },
+				include: { uni: true },
+			}),
+			agreements
 		);
 
 		// If one of the agreements doesn't exist, return error
-		if (docs.some((a) => !a))
+		if (docs.length !== agreements.length)
 			return NextResponse.json(
 				{ error: "Invalid agreements" },
 				{ status: 400 }
