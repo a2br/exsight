@@ -75,7 +75,7 @@ export const RegisterForm: React.FC = () => {
 					// step="any"
 					// min="1"
 					// max="6"
-					value={gpa.toString() + (trailingDot ? "." : "")}
+					value={displayedGpa}
 					onChange={(e) => {
 						let value = parseFloat(e.target.value.replace(",", "."));
 						if (value < 1 || value > 6) return;
