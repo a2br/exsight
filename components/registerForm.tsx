@@ -11,6 +11,11 @@ export const RegisterForm: React.FC = () => {
 	let [section, setSection] = useState("MT");
 	let [fail, setFail] = useState(false);
 
+	// Stupid hack for localization
+	let [trailingDot, setTrailingDot] = useState(false);
+	let displayedGpa = gpa.toString() + (trailingDot ? "." : "");
+	if (isNaN(gpa)) displayedGpa = "";
+
 	return (
 		<form
 			onSubmit={async (e) => {
@@ -70,10 +75,15 @@ export const RegisterForm: React.FC = () => {
 					// step="any"
 					// min="1"
 					// max="6"
-					value={gpa.toString()}
+					value={gpa.toString() + (trailingDot ? "." : "")}
 					onChange={(e) => {
 						let value = parseFloat(e.target.value.replace(",", "."));
 						if (value < 1 || value > 6) return;
+						if (e.target.value.endsWith(".") || e.target.value.endsWith(",")) {
+							setTrailingDot(true);
+						} else {
+							setTrailingDot(false);
+						}
 						setGpa(value);
 					}}
 					required
