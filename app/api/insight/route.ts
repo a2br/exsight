@@ -18,40 +18,30 @@ export async function GET() {
 	if (!user)
 		return NextResponse.json({ error: "Not registered" }, { status: 400 });
 	// Goal of Insights: return user and their agreements in the correct order
-	user.agreements = sortDocs(user.agreements, user.agreementOrder);
+	let sortedAgreements = sortDocs(user.agreements, user.agreementOrder);
 
-	// For each agreement, add an array of the grades of all candidates
-	for (let agr of user.agreements) {
-		(agr as any).candidates = (
-			await prisma.user.findMany({
+	let boostedAgreements = await Promise.all(
+		sortedAgreements.map(async (agr) => {
+			let candidates = await prisma.user.findMany({
 				where: { agreements: { some: { id: agr.id } } },
 				select: { gpa: true },
-			})
-		)
-			.map((u) => u.gpa)
-			.sort((a, b) => b - a);
-	}
+			});
 
-	const newUser = {
-		...user,
-		agreements: await Promise.all(
-			user.agreements.map(async (agr) => ({
+			return {
 				...agr,
-				candidates: (
-					await prisma.user.findMany({
-						where: { agreements: { some: { id: agr.id } } },
-						select: { gpa: true },
-					})
-				)
-					.map((u) => u.gpa)
+				candidates: candidates
+					.map((u) => Math.round(u.gpa * 100) / 100)
 					.sort((a, b) => b - a),
-			}))
-		),
+			};
+		})
+	);
+
+	const userWithCandidates = {
+		...user,
+		agreements: boostedAgreements,
 	};
 
-	console.log(newUser.agreements);
-
 	return NextResponse.json({
-		user: newUser,
+		user: userWithCandidates,
 	});
 }
