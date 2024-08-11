@@ -12,6 +12,7 @@ To host it on your machine, all you need is a Postgres database to upload the Pr
 
 This is on the roadmap
 
+- [ ] Fix Inter ligatures outside Chrome for ->, or use icon
 - [ ] Add more loading animations
   - The backend is sometimes very slow for some operations, and some feedback to the user would be very helpful
 - [ ] Make what's clickable more friendly (hover effects, etc... fortunately this is a mobile first app)
