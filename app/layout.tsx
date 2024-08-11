@@ -4,6 +4,7 @@ import "./globals.css";
 import { BRAND_COLOR, BRAND_NAME } from "@/lib/util";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
