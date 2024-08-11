@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
 	if (region && !["EUR", "WOR"].includes(region))
 		return NextResponse.json({ error: "Invalid region" }, { status: 400 });
 
-	//TODO Find corresponding universities
+	// Find corresponding universities
 	let agreements = await prisma.agreement.findMany({
 		where: {
 			AND: [

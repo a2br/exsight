@@ -82,7 +82,7 @@ const AgreementBox: React.FC<{ agreement: SuperAg; i?: number }> = ({
 	agreement: ag,
 	i,
 }) => {
-	let link = `/a/${ag.id}`; //TODO Add index only
+	let link = `/a/${ag.id}`;
 	if (i !== undefined) link += `?to=${i}`;
 	return (
 		<Link href={link} style={{ textDecoration: "none", color: "inherit" }}>
