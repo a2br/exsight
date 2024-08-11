@@ -23,7 +23,11 @@ export default async function RootLayout({
 			<head>
 				<meta name="theme-color" content={BRAND_COLOR} />
 			</head>
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				{children}
+				<SpeedInsights />
+				<Analytics />
+			</body>
 		</html>
 	);
 }
