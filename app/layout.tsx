@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Session } from "inspector";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
 import { BRAND_COLOR, BRAND_NAME } from "@/lib/util";
+
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
