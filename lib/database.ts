@@ -139,6 +139,8 @@ export async function refreshPredictions() {
 
 		// Suppose the user has the right for each agreement
 		for (let option of sortedAgreements) {
+			//FIXME: Alphaleeway is incorrectly positive in production (in with 2 spare places, #4 out of 2)
+
 			// If agreement isn't in ledger, add it
 			if (!ledger.has(option.id)) {
 				ledger.set(option.id, {

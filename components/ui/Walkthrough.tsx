@@ -152,7 +152,10 @@ const WalkthroughItem: React.FC<{
 						textAlign: "right",
 						fontWeight: 700,
 						fontSize: "1em",
-						color: spareChoice ? "rgba(255, 255, 255, 0.5)" : "white",
+						color:
+							spareChoice || alphaLeeway < 0
+								? "rgba(255, 255, 255, 0.5)"
+								: "white",
 					}}
 				>
 					{a.uni.name}
@@ -165,7 +168,7 @@ const WalkthroughItem: React.FC<{
 					padding: "1em",
 					display: "flex",
 					flexDirection: "column",
-					color: spareChoice ? "grey" : "inherit",
+					color: spareChoice || alphaLeeway < 0 ? "grey" : "inherit",
 				}}
 			>
 				{spareChoice ? (
