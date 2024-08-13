@@ -18,3 +18,4 @@ This is on the roadmap
 - [ ] Make what's clickable more friendly (hover effects, etc... fortunately this is a mobile first app)
 - [ ] Make it usable on desktop (far future)
 - [ ] Investigate possible performance improvements
+- [ ] Manually label & implement special cases (eg, Polytechnique de Montréal: max 3 places for GM)
