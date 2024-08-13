@@ -7,7 +7,6 @@ import { Agreement, University } from "@prisma/client";
 import short from "@/public/short.json";
 
 import { FaAngleUp, FaAngleDown, FaXmark } from "react-icons/fa6";
-import { BRAND_COLOR } from "@/lib/util";
 
 type SuperAgreement = Agreement & { uni: University };
 

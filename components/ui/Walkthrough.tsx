@@ -179,7 +179,7 @@ const WalkthroughItem: React.FC<{
 					>
 						{bravoLeeway >= 0
 							? `you'd get in with ${bravoLeeway} spare places`
-							: `you'd be ${-bravoLeeway} places from getting in`}
+							: `you'd be rejected by ${-bravoLeeway} places`}
 					</span>
 				) : (
 					<>
@@ -190,12 +190,12 @@ const WalkthroughItem: React.FC<{
 						>
 							{alphaLeeway >= 0
 								? `getting in with ${alphaLeeway} spare places!`
-								: `${-alphaLeeway} places from getting in`}
+								: `rejected by ${-alphaLeeway} places`}
 						</span>
 					</>
 				)}
 				<span>
-					you're candidate #{charlieRank} out of {a.places}
+					originally #{charlieRank} out of {a.places}
 				</span>
 			</div>
 		</li>

@@ -27,7 +27,16 @@ export default async function Agreement({
 	});
 	if (!user) redirect("/register");
 
-	const agreement = await getAgreement(id);
+	const agreement = await prisma.agreement.findUnique({
+		where: { id },
+		include: { uni: true },
+	});
+	let candidates = await prisma.user.findMany({
+		where: { agreementOrder: { has: id } },
+		select: { gpa: true, fail: true },
+		orderBy: [{ fail: "asc" }, { gpa: "desc" }],
+	});
+
 	let idx = to && parseInt(to);
 	if (idx === "" || (idx !== undefined && idx < 0)) idx = undefined;
 
@@ -38,7 +47,9 @@ export default async function Agreement({
 				{agreement ? (
 					<AgreementViewer
 						user={JSON.parse(JSON.stringify(user))}
-						agreement={JSON.parse(JSON.stringify(agreement)) as any}
+						agreement={
+							JSON.parse(JSON.stringify({ ...agreement, candidates })) as any
+						}
 						idx={idx}
 					/>
 				) : (
@@ -47,11 +58,4 @@ export default async function Agreement({
 			</main>
 		</>
 	);
-}
-
-function getAgreement(id: string) {
-	return prisma.agreement.findUnique({
-		where: { id },
-		include: { uni: true },
-	});
 }

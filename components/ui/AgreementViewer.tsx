@@ -8,7 +8,10 @@ import { DisplaySections } from "../DisplaySections";
 
 export const AgreementViewer: React.FC<{
 	user: User & { agreements: (Agreement & { uni: University })[] };
-	agreement: Agreement & { uni: University };
+	agreement: Agreement & {
+		uni: University;
+		candidates: { gpa: number; fail: boolean }[];
+	};
 	idx?: number;
 }> = ({ user, agreement, idx }) => {
 	let router = useRouter();
@@ -64,7 +67,11 @@ export const AgreementViewer: React.FC<{
 		if (res.ok) window.location.href = "/";
 	};
 
-	let added = user.agreementOrder.some((id) => id === agreement.id);
+	let isAdded = user.agreementOrder.some((id) => id === agreement.id);
+
+	// Stats
+	let minGpa = agreement.grades[agreement.places - 1];
+	let atMan = agreement.failIdx !== -1 && agreement.failIdx < agreement.places;
 
 	return (
 		<div>
@@ -91,19 +98,28 @@ export const AgreementViewer: React.FC<{
 			<div style={{ margin: "1em 0" }}>
 				<DisplaySections sections={agreement.sections} />
 			</div>
+			{/* Your full status */}
+			<p>
+				{minGpa !== undefined
+					? `required GPA is at least ${minGpa.toFixed(2)} (${
+							atMan ? "after MàN" : "on first try"
+					  })`
+					: "in this simulation, there's currently room for anyone."}
+			</p>
+			{/* Needed grade to get in */}
 			<button
 				style={{
 					backgroundColor: "white",
-					border: `1px solid ${added ? "red" : BRAND_COLOR}`,
-					color: added ? "red" : BRAND_COLOR,
+					border: `1px solid ${isAdded ? "red" : BRAND_COLOR}`,
+					color: isAdded ? "red" : BRAND_COLOR,
 					padding: "1em",
 					fontFamily: "inherit",
 					width: "100%",
 					margin: "2em 0",
 				}}
-				onClick={added ? removeFromList : addToList}
+				onClick={isAdded ? removeFromList : addToList}
 			>
-				{added ? "Remove from list" : "Add to list"}
+				{isAdded ? "Remove from list" : "Add to list"}
 			</button>
 		</div>
 	);
