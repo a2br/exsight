@@ -20,3 +20,4 @@ This is on the roadmap
 - [ ] Investigate possible performance improvements
 - [ ] Manually label & implement special cases (eg, Polytechnique de Montréal: max 3 places for GM)
 - [ ] Have Google auth 100% 5xx-errorless
+- [ ] Spectator mode
