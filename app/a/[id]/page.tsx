@@ -31,11 +31,6 @@ export default async function Agreement({
 		where: { id },
 		include: { uni: true },
 	});
-	let candidates = await prisma.user.findMany({
-		where: { agreementOrder: { has: id } },
-		select: { gpa: true, fail: true },
-		orderBy: [{ fail: "asc" }, { gpa: "desc" }],
-	});
 
 	let idx = to && parseInt(to);
 	if (idx === "" || (idx !== undefined && idx < 0)) idx = undefined;
@@ -47,9 +42,7 @@ export default async function Agreement({
 				{agreement ? (
 					<AgreementViewer
 						user={JSON.parse(JSON.stringify(user))}
-						agreement={
-							JSON.parse(JSON.stringify({ ...agreement, candidates })) as any
-						}
+						agreement={JSON.parse(JSON.stringify(agreement)) as any}
 						idx={idx}
 					/>
 				) : (

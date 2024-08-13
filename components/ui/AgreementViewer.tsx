@@ -10,7 +10,6 @@ export const AgreementViewer: React.FC<{
 	user: User & { agreements: (Agreement & { uni: University })[] };
 	agreement: Agreement & {
 		uni: University;
-		candidates: { gpa: number; fail: boolean }[];
 	};
 	idx?: number;
 }> = ({ user, agreement, idx }) => {
