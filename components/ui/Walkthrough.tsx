@@ -80,7 +80,10 @@ export const Walkthrough: React.FC<{
 
 const WalkthroughItem: React.FC<{
 	user: User;
-	agreement: Agreement & { uni: University; candidates: number[] };
+	agreement: Agreement & {
+		uni: University;
+		candidates: { gpa: number; fail: boolean }[];
+	};
 }> = ({ user, agreement: a }) => {
 	let idx = user.agreementOrder.findIndex((id) => id === a.id);
 	let rank = idx + 1;
@@ -92,7 +95,9 @@ const WalkthroughItem: React.FC<{
 	if (bravoIdx === -1) bravoIdx = a.grades.length;
 	let bravoLeeway = a.places - bravoIdx - 1;
 
-	let charlieRank = a.candidates.findIndex((g) => g <= user.gpa);
+	let charlieRank = a.candidates.findIndex(
+		(g) => (!user.fail && g.fail) || g.gpa <= user.gpa
+	);
 	if (charlieRank === -1) charlieRank = a.candidates.length;
 	charlieRank += 1;
 

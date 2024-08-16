@@ -24,14 +24,23 @@ export async function GET() {
 		sortedAgreements.map(async (agr) => {
 			let candidates = await prisma.user.findMany({
 				where: { agreements: { some: { id: agr.id } } },
-				select: { gpa: true },
+				select: { gpa: true, fail: true },
+				orderBy: [
+					{
+						fail: "asc",
+					},
+					{
+						gpa: "desc",
+					},
+				],
 			});
 
 			return {
 				...agr,
-				candidates: candidates
-					.map((u) => Math.round(u.gpa * 100) / 100)
-					.sort((a, b) => b - a),
+				candidates: candidates.map((u) => ({
+					fail: u.fail,
+					gpa: Math.round(u.gpa * 100) / 100,
+				})),
 			};
 		})
 	);
