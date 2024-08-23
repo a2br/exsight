@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { User, Agreement, University } from "@prisma/client";
 import { FaArrowsRotate } from "react-icons/fa6";
 
-import { stringToColor } from "@/lib/util";
+import { CACHE_DELAY, stringToColor } from "@/lib/util";
 import Link from "next/link";
 
 export const Walkthrough: React.FC<{
@@ -33,7 +33,11 @@ export const Walkthrough: React.FC<{
 	};
 
 	useEffect(() => {
-		fetchInsights();
+		const timer = setTimeout(() => {
+			fetchInsights();
+		}, CACHE_DELAY);
+
+		return () => clearTimeout(timer);
 	}, [agr]);
 
 	return (

@@ -11,6 +11,8 @@ export function sortDocs<T extends { id: U }, U>(docs: T[], model: U[]): T[] {
 export const BRAND_NAME = "ExSight Beta";
 export const BRAND_COLOR = "#00A79F";
 
+export const CACHE_DELAY = process.env.CACHE_DELAY ?? 2000;
+
 export function stringToColor(inputString: string): string {
 	// Hash function to convert string to a number
 	let hash = 0;
