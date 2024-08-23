@@ -88,20 +88,25 @@ const WalkthroughItem: React.FC<{
 	let idx = user.agreementOrder.findIndex((id) => id === a.id);
 	let rank = idx + 1;
 
-	let alphaLeeway = user.alphaLeeway[idx];
+	// ALPHA INDICES
+	let alphaRank = user.alphaRanks[idx];
+	let isGettingIn = alphaRank <= a.places;
 
+	// BRAVO INDICES
 	let minIdx = user.fail ? (a.failIdx === -1 ? a.grades.length : a.failIdx) : 0;
 	let bravoIdx = a.grades.findIndex((g, i) => i >= minIdx && g < user.gpa);
 	if (bravoIdx === -1) bravoIdx = a.grades.length;
-	let bravoLeeway = a.places - bravoIdx - 1;
+	let bravoRank = bravoIdx + 1;
+	let bravoGettingIn = bravoRank <= a.places;
 
+	// CHARLIE INDICES
 	let charlieRank = a.candidates.findIndex(
 		(g) => (!user.fail && g.fail) || g.gpa <= user.gpa
 	);
 	if (charlieRank === -1) charlieRank = a.candidates.length;
 	charlieRank += 1;
 
-	let spareChoice = user.alphaLeeway.length <= idx;
+	let spareChoice = user.alphaRanks.length <= idx;
 
 	return (
 		<li
@@ -158,9 +163,7 @@ const WalkthroughItem: React.FC<{
 						fontWeight: 700,
 						fontSize: "1em",
 						color:
-							spareChoice || alphaLeeway < 0
-								? "rgba(255, 255, 255, 0.5)"
-								: "white",
+							spareChoice || isGettingIn ? "rgba(255, 255, 255, 0.5)" : "white",
 					}}
 				>
 					{a.uni.name}
@@ -173,7 +176,7 @@ const WalkthroughItem: React.FC<{
 					padding: "1em",
 					display: "flex",
 					flexDirection: "column",
-					color: spareChoice || alphaLeeway < 0 ? "grey" : "inherit",
+					color: spareChoice || !isGettingIn ? "grey" : "inherit",
 				}}
 			>
 				{spareChoice ? (
@@ -182,20 +185,20 @@ const WalkthroughItem: React.FC<{
 							color: spareChoice ? "grey" : "white",
 						}}
 					>
-						{bravoLeeway >= 0
-							? `you'd get in as #${bravoIdx + 1} out of ${a.places}`
-							: `you'd be rejected as #${bravoIdx + 1} out of ${a.places}`}
+						{bravoGettingIn
+							? `you'd get in as #${bravoRank} out of ${a.places}`
+							: `you'd be rejected as #${bravoRank} out of ${a.places}`}
 					</span>
 				) : (
 					<>
 						<span
 							style={{
-								fontWeight: alphaLeeway >= 0 ? 700 : "inherit",
+								fontWeight: isGettingIn ? 700 : "inherit",
 							}}
 						>
-							{alphaLeeway >= 0
-								? `getting in as #${a.places - alphaLeeway} out of ${a.places}!`
-								: `rejected as #${a.places - alphaLeeway} out of ${a.places}`}
+							{isGettingIn
+								? `getting in as #${alphaRank} out of ${a.places}!`
+								: `rejected as #${alphaRank} out of ${a.places}`}
 						</span>
 					</>
 				)}

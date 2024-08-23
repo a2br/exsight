@@ -47,6 +47,7 @@ export async function deleteUser(id: string) {
 	// Refresh predictions, later
 }
 
+// This is responsible for setting alpha indices
 export async function refreshPredictions() {
 	console.time("refreshPredictions");
 	// Get all the users, sorted by GPA
@@ -82,7 +83,7 @@ export async function refreshPredictions() {
 	});
 
 	// Populate with all agreements: important to clear out bad data
-	let populatedAgreements = await prisma.agreement.findMany({
+	let nonVirginAgreements = await prisma.agreement.findMany({
 		select: {
 			id: true,
 			places: true,
@@ -124,7 +125,7 @@ export async function refreshPredictions() {
 			failIndex: number;
 		}
 	>(
-		populatedAgreements.map((a) => [
+		nonVirginAgreements.map((a) => [
 			a.id,
 			{ places: a.places, grades: [], failIndex: -1 },
 		])
@@ -133,13 +134,13 @@ export async function refreshPredictions() {
 	let userUpdates = new Map<string, number[]>();
 
 	for (let user of users) {
-		let alphaLeeway: number[] = [];
+		let alphaRanks: number[] = [];
 
 		let sortedAgreements = sortDocs(user.agreements, user.agreementOrder);
 
 		// Suppose the user has the right for each agreement
 		for (let option of sortedAgreements) {
-			//FIXME: Alphaleeway is incorrectly positive in production (in with 2 spare places, #4 out of 2)
+			// FIXME
 
 			// If agreement isn't in ledger, add it
 			if (!ledger.has(option.id)) {
@@ -150,15 +151,21 @@ export async function refreshPredictions() {
 				});
 			}
 
+			//! Might want to clean up after a user has been removed
+			if (ledger.get(option.id)!.grades.length === 0) {
+				ledger.set(option.id, {
+					...ledger.get(option.id)!,
+					failIndex: -1,
+				});
+			}
+
 			// Get the ranking
 			let { places, grades, failIndex } = ledger.get(option.id)!;
 			let cursor = grades.length;
 
 			// At this point: current user has the priority
-			let placesLeft = places - cursor;
-			let placesLeftAfterMe = placesLeft - 1;
-
-			alphaLeeway.push(placesLeftAfterMe); // 0 if last, -1 if 1 place away, etc...
+			let alphaRank = cursor + 1;
+			alphaRanks.push(alphaRank);
 
 			let newFailIndex = failIndex === -1 && user.fail ? cursor : failIndex;
 
@@ -170,10 +177,10 @@ export async function refreshPredictions() {
 			});
 
 			// Found happiness
-			if (placesLeft > 0) break;
+			if (alphaRank <= places) break;
 		}
 
-		userUpdates.set(user.id, alphaLeeway);
+		userUpdates.set(user.id, alphaRanks);
 	}
 
 	console.timeEnd("- looping users");
@@ -197,7 +204,7 @@ export async function refreshPredictions() {
 			prisma.user.update({
 				where: { id },
 				data: {
-					alphaLeeway: value,
+					alphaRanks: value,
 				},
 			})
 		),

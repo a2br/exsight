@@ -30,7 +30,7 @@ model User {
 
   agreements     Agreement[]
   agreementOrder String[]
-  alphaLeeway    Int[]
+  alphaRanks     Int[]
 
   @@map("users")
 }
