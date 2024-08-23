@@ -167,7 +167,9 @@ const WalkthroughItem: React.FC<{
 						fontWeight: 700,
 						fontSize: "1em",
 						color:
-							spareChoice || isGettingIn ? "rgba(255, 255, 255, 0.5)" : "white",
+							spareChoice || !isGettingIn
+								? "rgba(255, 255, 255, 0.5)"
+								: "white",
 					}}
 				>
 					{a.uni.name}
