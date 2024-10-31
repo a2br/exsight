@@ -104,9 +104,19 @@ const WalkthroughItem: React.FC<{
 	let bravoGettingIn = bravoRank <= a.places;
 
 	// CHARLIE INDICES
-	let charlieRank = a.candidates.findIndex(
-		(g) => (!user.fail && g.fail) || g.gpa <= user.gpa
-	);
+	// user fail
+	// 5.4 5.3 5.0 4.5 F5.6 F4.8
+
+	let charlieRank = [...a.candidates].findIndex((candidate) => {
+		if (candidate.fail === user.fail) {
+			// In the same league.
+			return candidate.gpa < user.gpa;
+		} else {
+			// failed / candidate didn't: keep iterating
+			// didn't fail / candidate did: stop
+			return !user.fail;
+		}
+	});
 	if (charlieRank === -1) charlieRank = a.candidates.length;
 	charlieRank += 1;
 

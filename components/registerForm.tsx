@@ -6,6 +6,11 @@ import React, { useState } from "react";
 import "@/app/register/style.css";
 import { BRAND_COLOR } from "@/lib/util";
 
+// This form is used to register a new user.
+// Before it's filled, nothing about the user
+// is stored in the database.
+// It takes in a local session. It's the first
+// contact of the user with the database.
 export const RegisterForm: React.FC = () => {
 	let [gpa, setGpa] = useState(4.5);
 	let [gpaString, setGpaString] = useState(gpa.toString());
@@ -18,7 +23,7 @@ export const RegisterForm: React.FC = () => {
 		<form
 			onSubmit={async (e) => {
 				e.preventDefault();
-				// Send request
+				// Send request to backend & register user
 				const res = await fetch("/api/account", {
 					method: "POST",
 					body: JSON.stringify({ gpa, section, fail }),
