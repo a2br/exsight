@@ -99,7 +99,13 @@ const WalkthroughItem: React.FC<{
 	// BRAVO INDICES
 	let minIdx = user.fail ? (a.failIdx === -1 ? a.grades.length : a.failIdx) : 0;
 	let bravoIdx = a.grades.findIndex((g, i) => i >= minIdx && g < user.gpa);
-	if (bravoIdx === -1) bravoIdx = a.grades.length;
+	if (bravoIdx === -1) {
+		if (!user.fail && a.failIdx !== -1) {
+			bravoIdx = a.failIdx;
+		} else {
+			bravoIdx = a.grades.length;
+		}
+	}
 	let bravoRank = bravoIdx + 1;
 	let bravoGettingIn = bravoRank <= a.places;
 
