@@ -47,7 +47,7 @@ export async function deleteUser(id: string) {
 	// Refresh predictions, later
 }
 
-// This is responsible for setting alpha indices
+// This computes and caches alpha and bravo ranks for all users and agreements.
 export async function refreshPredictions() {
 	console.time("refreshPredictions");
 	// Get all the users, sorted by GPA
@@ -177,6 +177,7 @@ export async function refreshPredictions() {
 			});
 
 			// Found happiness
+			// FIXME places not working after manual adjustment
 			if (alphaRank <= places) break;
 		}
 

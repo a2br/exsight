@@ -1,8 +1,6 @@
 import { auth } from "@/auth";
 import { Footnote } from "@/components/ui/Footnote";
 import { Header } from "@/components/ui/Header";
-import { MyPicks } from "@/components/ui/MyPicks";
-import { Walkthrough } from "@/components/ui/Walkthrough";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
